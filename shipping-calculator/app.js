@@ -99,7 +99,7 @@
       $('.member-total', row).textContent = `${(total || 0).toFixed(2)} kg`;
       $('.member-weight', row).setAttribute('aria-invalid', String($('.member-weight', row).value.length > 0 && total === null));
       error.textContent = '';
-      save(); updateSummary(); refreshProducts();
+      save(); updateSummary(); refreshProducts(); renderPresets();
     };
     row.addEventListener('input', event => { if (event.target.matches('input')) recalc(); });
     $('.product-select', row).addEventListener('change', event => {
@@ -115,7 +115,7 @@
     $('.remove-member', row).addEventListener('click', () => {
       row.remove();
       if (!list.children.length) addMember();
-      save(); updateSummary(); refreshProducts();
+      save(); updateSummary(); refreshProducts(); renderPresets();
     });
     const move = direction => {
       const sibling = direction < 0 ? row.previousElementSibling : row.nextElementSibling;
@@ -137,10 +137,16 @@
     const select = document.createElement('select'); select.className = 'person-select';
     select.setAttribute('aria-label', '選擇人員加入本次成員');
     select.add(new Option('選擇人員，加入本次成員', ''));
-    entries.forEach((member, index) => select.add(new Option(member.name, String(index))));
+    const addedNames = new Set(collectMembers().map(member => member.name));
+    entries.forEach((member, index) => {
+      const added = addedNames.has(member.name);
+      const option = new Option(`${member.name}${added ? '－已加入' : ''}`, String(index));
+      option.disabled = added; select.add(option);
+    });
     select.addEventListener('change', () => {
       if (select.value === '') return;
       const member = entries[Number(select.value)];
+      if (collectMembers().some(current => current.name === member.name)) return;
       const empty = [...list.children].find(row => !$('.member-name', row).value.trim() && !$('.member-weight', row).value.trim());
       if (empty) empty.remove();
       addMember(member); select.value = ''; save(); updateSummary();
