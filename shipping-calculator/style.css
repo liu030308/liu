@@ -20,8 +20,9 @@
 .tax-toggle>span:first-child{display:grid;gap:.3rem}
 .tax-toggle small{color:var(--muted);font-size:.75rem;line-height:1.45}
 .switch{position:relative;flex:0 0 auto}.switch input{position:absolute;opacity:0;pointer-events:none}
-.switch>span{display:block;width:48px;height:27px;border-radius:99px;background:var(--line);transition:.2s}
-.switch>span::after{content:"";display:block;width:21px;height:21px;margin:3px;border-radius:50%;background:#fff;transition:.2s}
+.switch>span{position:relative;display:block;width:48px;height:27px;border-radius:99px;background:var(--line);transition:.2s}
+.switch>span::after{content:"";position:absolute;top:3px;left:3px;display:block;width:21px;height:21px;margin:0;border-radius:50%;background:#fff;transition:.2s}
+.person-select{width:100%;padding:.8rem;border:1px solid var(--line);border-radius:10px;background:var(--panel-2);color:var(--text);font:inherit}.preset-list{display:block}
 .switch input:checked+span{background:var(--cyan)}.switch input:checked+span::after{transform:translateX(21px)}
 .switch input:focus-visible+span{outline:3px solid color-mix(in srgb,var(--cyan) 55%,transparent);outline-offset:2px}
 .tax-field{margin:1rem 0 0}.members-heading>div:first-child{display:grid;gap:.25rem}.list-actions{display:flex;gap:.4rem}

@@ -28,6 +28,7 @@
         taxEnabled: Boolean(saved?.taxEnabled),
         tax: saved?.tax ?? '',
         products: Array.isArray(saved?.products) ? saved.products : [],
+        importedMembers: Array.isArray(saved?.importedMembers) ? saved.importedMembers : [],
         presets: Array.isArray(saved?.presets) ? saved.presets : DEFAULT_PRESETS,
         members: Array.isArray(saved?.members) && saved.members.length ? saved.members : [{ name: '', weight: '' }],
         theme: saved?.theme || 'dark'
@@ -130,16 +131,21 @@
 
   const renderPresets = () => {
     const wrap = $('#preset-list'); wrap.replaceChildren();
-    state.presets.forEach((name, index) => {
-      const chip = document.createElement('span'); chip.className = 'preset-chip';
-      const add = document.createElement('button'); add.type = 'button'; add.textContent = `+ ${name}`;
-      add.setAttribute('aria-label', `加入 ${name}`);
-      add.addEventListener('click', () => addMember({ name, weight: '' }, false));
-      const del = document.createElement('button'); del.type = 'button'; del.className = 'delete-preset'; del.textContent = '×';
-      del.setAttribute('aria-label', `刪除常用成員 ${name}`);
-      del.addEventListener('click', () => { state.presets.splice(index, 1); save(); renderPresets(); });
-      chip.append(add, del); wrap.append(chip);
+    const people = new Map(state.presets.map(name => [name, { name, weight: '' }]));
+    (state.importedMembers || []).forEach(member => people.set(member.name, member));
+    const entries = [...people.values()];
+    const select = document.createElement('select'); select.className = 'person-select';
+    select.setAttribute('aria-label', '選擇人員加入本次成員');
+    select.add(new Option('選擇人員，加入本次成員', ''));
+    entries.forEach((member, index) => select.add(new Option(member.name, String(index))));
+    select.addEventListener('change', () => {
+      if (select.value === '') return;
+      const member = entries[Number(select.value)];
+      const empty = [...list.children].find(row => !$('.member-name', row).value.trim() && !$('.member-weight', row).value.trim());
+      if (empty) empty.remove();
+      addMember(member); select.value = ''; save(); updateSummary();
     });
+    wrap.append(select);
   };
 
   const calculate = () => {
@@ -284,8 +290,9 @@
       if (payload?.format !== 'junwei-shipping-list' || !Array.isArray(payload.members) || !payload.members.length || payload.members.length > 200) throw new Error('invalid');
       const members = payload.members.map(member => ({ name: String(member?.name || '').slice(0, 30), weight: String(member?.weight || '').slice(0, 100) }));
       if (Array.isArray(payload.presets)) state.presets = [...new Set(payload.presets.map(name => String(name).trim().slice(0, 30)).filter(Boolean))].slice(0, 100);
-      list.replaceChildren(); members.forEach(member => addMember(member)); renderPresets(); save(); updateSummary();
-      $('#list-status').textContent = `已匯入 ${members.length} 位成員。`;
+      state.importedMembers = members.filter(member => member.name.trim()).map(member => ({ ...member, name: traditional(member.name) }));
+      renderPresets(); save(); updateSummary();
+      $('#list-status').textContent = `已匯入 ${state.importedMembers.length} 位人員，請從上方下拉選單選擇加入。`;
     } catch { $('#list-status').textContent = '匯入失敗：請選擇由本工具匯出的 JSON 名單。'; }
     event.target.value = '';
   });

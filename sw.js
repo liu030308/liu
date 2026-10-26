@@ -1,4 +1,4 @@
-const CACHE_NAME = 'junwei-portfolio-v8';
+const CACHE_NAME = 'junwei-portfolio-v9';
 const CORE_ASSETS = [
     './',
     './index.css',
@@ -11,8 +11,8 @@ const CORE_ASSETS = [
     './assets/icon/github.webp',
     './assets/icon/instagram.webp',
     './shipping-calculator/',
-    './shipping-calculator/style.css?v=8',
-    './shipping-calculator/app.js?v=8',
+    './shipping-calculator/style.css?v=9',
+    './shipping-calculator/app.js?v=9',
     './shipping-calculator/vendor/xlsx.full.min.js',
     './shipping-calculator/vendor/opencc.js'
 ];
