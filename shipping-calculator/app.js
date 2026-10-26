@@ -10,9 +10,13 @@
   let products = [];
   const traditional = text => window.OpenCC ? OpenCC.Converter({ from: 'cn', to: 'tw' })(String(text)) : String(text);
   const refreshProducts = () => {
+    const used = new Set([...list.children].flatMap(row => (row.selectedProducts || []).map(item => item.id)));
     document.querySelectorAll('.product-select').forEach(select => {
       select.replaceChildren(new Option('選擇物品，自動加入重量', ''));
-      products.forEach((item, index) => select.add(new Option(`${item.name}（${item.weight} 公斤）`, String(index))));
+      products.forEach((item, index) => {
+        const option = new Option(`${item.name}（${item.weight} 公斤）${used.has(index) ? '－已分配' : ''}`, String(index));
+        option.disabled = used.has(index); select.add(option);
+      });
     });
   };
 
@@ -23,6 +27,7 @@
         shipping: saved?.shipping ?? '',
         taxEnabled: Boolean(saved?.taxEnabled),
         tax: saved?.tax ?? '',
+        products: Array.isArray(saved?.products) ? saved.products : [],
         presets: Array.isArray(saved?.presets) ? saved.presets : DEFAULT_PRESETS,
         members: Array.isArray(saved?.members) && saved.members.length ? saved.members : [{ name: '', weight: '' }],
         theme: saved?.theme || 'dark'
@@ -30,6 +35,7 @@
     } catch { return { shipping: '', taxEnabled: false, tax: '', presets: DEFAULT_PRESETS, members: [{ name: '', weight: '' }], theme: 'dark' }; }
   };
   let state = readState();
+  products = state.products || [];
 
   const parseWeight = (value) => {
     const normalized = value.replace(/kg/gi, '').trim();
@@ -39,13 +45,14 @@
   };
   const money = (value) => `NT$ ${Math.round(value).toLocaleString('zh-TW')}`;
   const collectMembers = () => [...list.querySelectorAll('.member-row')].map(row => ({
-    name: $('.member-name', row).value.trim(), weight: $('.member-weight', row).value.trim()
+    name: $('.member-name', row).value.trim(), weight: $('.member-weight', row).value.trim(), selectedProducts: row.selectedProducts || []
   }));
   const save = () => {
     state.shipping = $('#shipping').value;
     state.taxEnabled = $('#tax-enabled').checked;
     state.tax = $('#tax').value;
     state.members = collectMembers();
+    state.products = products;
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   };
   const updateSummary = () => {
@@ -59,27 +66,55 @@
 
   const addMember = (member = { name: '', weight: '' }, focus = false) => {
     const row = template.content.firstElementChild.cloneNode(true);
+    row.selectedProducts = Array.isArray(member.selectedProducts) ? member.selectedProducts : [];
+    const chips = document.createElement('div'); chips.className = 'selected-products';
+    $('.product-picker', row).append(chips);
     $('.member-name', row).value = member.name || '';
     $('.member-weight', row).value = member.weight || '';
     const recalc = () => {
+      const terms = $('.member-weight', row).value.split('+').map(term => term.trim());
+      const occupied = new Set();
+      row.selectedProducts = row.selectedProducts.filter(item => {
+        let index = item.term;
+        if (occupied.has(index) || Number(terms[index]) !== item.weight) index = terms.findIndex((term, i) => !occupied.has(i) && term !== '' && Number(term) === item.weight);
+        if (index < 0 || !terms[index]) return false;
+        item.term = index; occupied.add(index); return true;
+      });
+      chips.replaceChildren();
+      row.selectedProducts.forEach(item => {
+        const button = document.createElement('button'); button.type = 'button';
+        button.textContent = `${item.name} · ${item.weight} 公斤 ×`;
+        button.setAttribute('aria-label', `移除品項 ${item.name}`);
+        button.addEventListener('click', () => {
+          const parts = $('.member-weight', row).value.split('+').map(part => part.trim());
+          parts.splice(item.term, 1);
+          row.selectedProducts = row.selectedProducts.filter(selected => selected !== item);
+          row.selectedProducts.forEach(selected => { if (selected.term > item.term) selected.term--; });
+          $('.member-weight', row).value = parts.join(' + '); recalc();
+        });
+        chips.append(button);
+      });
       const total = parseWeight($('.member-weight', row).value);
       $('.member-total', row).textContent = `${(total || 0).toFixed(2)} kg`;
       $('.member-weight', row).setAttribute('aria-invalid', String($('.member-weight', row).value.length > 0 && total === null));
       error.textContent = '';
-      save(); updateSummary();
+      save(); updateSummary(); refreshProducts();
     };
-    row.addEventListener('input', recalc);
+    row.addEventListener('input', event => { if (event.target.matches('input')) recalc(); });
     $('.product-select', row).addEventListener('change', event => {
       const item = products[Number(event.target.value)];
       if (event.target.value === '' || !item) return;
+      const id = Number(event.target.value);
+      if ([...list.children].some(other => (other.selectedProducts || []).some(selected => selected.id === id))) return;
       const input = $('.member-weight', row);
+      row.selectedProducts.push({ id, name: item.name, weight: item.weight, term: input.value.trim() ? input.value.split('+').length : 0 });
       input.value = input.value.trim() ? `${input.value.trim()} + ${item.weight}` : String(item.weight);
       recalc(); event.target.value = '';
     });
     $('.remove-member', row).addEventListener('click', () => {
       row.remove();
       if (!list.children.length) addMember();
-      save(); updateSummary();
+      save(); updateSummary(); refreshProducts();
     });
     const move = direction => {
       const sibling = direction < 0 ? row.previousElementSibling : row.nextElementSibling;
@@ -235,7 +270,9 @@
         }
       }
       if (!imported.length) throw new Error('empty');
-      products = imported; refreshProducts();
+      products = imported;
+      [...list.children].forEach(row => { row.selectedProducts = []; $('.selected-products', row).replaceChildren(); });
+      refreshProducts(); save();
       $('#products-status').textContent = `已匯入 ${products.length} 項物品，請在成員下方選擇物品。`;
     } catch { $('#products-status').textContent = '匯入失敗：請使用包含「物品名稱」與「包裹重量」欄位的 Excel 檔案。'; }
     event.target.value = '';
