@@ -13,11 +13,13 @@
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
       return {
         shipping: saved?.shipping ?? '',
+        taxEnabled: Boolean(saved?.taxEnabled),
+        tax: saved?.tax ?? '',
         presets: Array.isArray(saved?.presets) ? saved.presets : DEFAULT_PRESETS,
         members: Array.isArray(saved?.members) && saved.members.length ? saved.members : [{ name: '', weight: '' }],
         theme: saved?.theme || 'dark'
       };
-    } catch { return { shipping: '', presets: DEFAULT_PRESETS, members: [{ name: '', weight: '' }], theme: 'dark' }; }
+    } catch { return { shipping: '', taxEnabled: false, tax: '', presets: DEFAULT_PRESETS, members: [{ name: '', weight: '' }], theme: 'dark' }; }
   };
   let state = readState();
 
@@ -33,6 +35,8 @@
   }));
   const save = () => {
     state.shipping = $('#shipping').value;
+    state.taxEnabled = $('#tax-enabled').checked;
+    state.tax = $('#tax').value;
     state.members = collectMembers();
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   };
@@ -40,6 +44,7 @@
     const members = collectMembers();
     const totalWeight = members.reduce((sum, m) => sum + (parseWeight(m.weight) || 0), 0);
     $('#summary-shipping').textContent = money(Number($('#shipping').value) || 0);
+    $('#summary-tax').textContent = money($('#tax-enabled').checked ? Number($('#tax').value) || 0 : 0);
     $('#summary-weight').textContent = `${totalWeight.toFixed(2)} kg`;
     $('#summary-members').textContent = `${members.filter(m => m.name && parseWeight(m.weight)).length} 人`;
   };
@@ -94,6 +99,12 @@
     if (!Number.isFinite(shippingRaw) || shippingRaw <= 0 || shippingRaw !== shipping) {
       error.textContent = '請輸入大於 0 的整數運費。'; $('#shipping').focus(); return;
     }
+    const taxEnabled = $('#tax-enabled').checked;
+    const taxRaw = taxEnabled ? Number($('#tax').value) : 0;
+    const tax = Math.round(taxRaw);
+    if (taxEnabled && (!Number.isFinite(taxRaw) || taxRaw <= 0 || taxRaw !== tax)) {
+      error.textContent = '請輸入大於 0 的整數稅金。'; $('#tax').focus(); return;
+    }
     const rawMembers = collectMembers();
     if (!rawMembers.length) { error.textContent = '請至少新增一位成員。'; return; }
     const grouped = new Map();
@@ -113,17 +124,25 @@
     });
     let remainder = shipping - members.reduce((sum, m) => sum + m.share, 0);
     [...members].sort((a, b) => b.fraction - a.fraction || a.order - b.order).slice(0, remainder).forEach(m => m.share++);
+    const taxBase = Math.floor(tax / members.length);
+    const taxRemainder = tax - taxBase * members.length;
+    members.forEach((m, index) => {
+      m.taxShare = taxBase + (index < taxRemainder ? 1 : 0);
+      m.totalShare = m.share + m.taxShare;
+    });
     result = members;
     const tbody = $('#result-rows'); tbody.replaceChildren();
     members.forEach(m => {
       const tr = document.createElement('tr');
-      [m.name, `${m.weight.toFixed(2)} kg`, `${(m.weight / totalWeight * 100).toFixed(1)}%`, money(m.share)].forEach(value => {
+      [m.name, `${m.weight.toFixed(2)} kg`, `${(m.weight / totalWeight * 100).toFixed(1)}%`, money(m.share), money(m.taxShare), money(m.totalShare)].forEach(value => {
         const td = document.createElement('td'); td.textContent = value; tr.append(td);
       });
       tbody.append(tr);
     });
     $('#result-weight').textContent = `${totalWeight.toFixed(2)} kg`;
-    $('#result-total').textContent = money(shipping);
+    $('#result-shipping').textContent = money(shipping);
+    $('#result-tax').textContent = money(tax);
+    $('#result-total').textContent = money(shipping + tax);
     $('#empty-result').hidden = true; $('#result-content').hidden = false;
     $('#result-status').textContent = '計算完成'; $('#result-status').classList.add('ready');
     updateSummary(); save();
@@ -132,15 +151,25 @@
 
   const resultText = () => {
     const totalWeight = result.reduce((sum, m) => sum + m.weight, 0);
-    return ['📦 運費分攤明細', ...result.map(m => `${m.name}：${m.weight.toFixed(2)} kg → ${money(m.share)}`), `總重：${totalWeight.toFixed(2)} kg`, `總運費：${money(result.reduce((sum, m) => sum + m.share, 0))}`].join('\n');
+    const shipping = result.reduce((sum, m) => sum + m.share, 0);
+    const tax = result.reduce((sum, m) => sum + m.taxShare, 0);
+    return ['📦 運費與稅金分攤明細', ...result.map(m => `${m.name}：${m.weight.toFixed(2)} kg → 運費 ${money(m.share)} + 稅金 ${money(m.taxShare)} = ${money(m.totalShare)}`), `總重：${totalWeight.toFixed(2)} kg`, `運費：${money(shipping)}`, `稅金：${money(tax)}`, `總計：${money(shipping + tax)}`].join('\n');
   };
 
   $('#shipping').value = state.shipping;
+  $('#tax-enabled').checked = state.taxEnabled;
+  $('#tax').value = state.tax;
+  $('#tax-field').hidden = !state.taxEnabled;
   state.members.forEach(member => addMember(member));
   renderPresets(); updateSummary();
   document.documentElement.dataset.theme = state.theme;
   $('#theme-toggle').textContent = state.theme === 'light' ? '☀' : '☾';
   $('#shipping').addEventListener('input', () => { error.textContent = ''; save(); updateSummary(); });
+  $('#tax').addEventListener('input', () => { error.textContent = ''; save(); updateSummary(); });
+  $('#tax-enabled').addEventListener('change', () => {
+    $('#tax-field').hidden = !$('#tax-enabled').checked; error.textContent = ''; save(); updateSummary();
+    if ($('#tax-enabled').checked) $('#tax').focus();
+  });
   $('#add-member').addEventListener('click', () => addMember(undefined, true));
   $('#calculate').addEventListener('click', calculate);
   $('#preset-form').addEventListener('submit', event => {
@@ -149,7 +178,8 @@
     state.presets.push(name); input.value = ''; save(); renderPresets();
   });
   $('#clear-all').addEventListener('click', () => {
-    $('#shipping').value = ''; list.replaceChildren(); addMember(); result = [];
+    $('#shipping').value = ''; $('#tax-enabled').checked = false; $('#tax').value = ''; $('#tax-field').hidden = true;
+    list.replaceChildren(); addMember(); result = [];
     $('#empty-result').hidden = false; $('#result-content').hidden = true;
     $('#result-status').textContent = '尚未計算'; $('#result-status').classList.remove('ready');
     save(); updateSummary(); $('#shipping').focus();
@@ -159,10 +189,29 @@
     catch { $('#copy-status').textContent = '複製失敗，請手動選取結果。'; }
   });
   $('#export-csv').addEventListener('click', () => {
-    const rows = [['成員', '重量(kg)', '應付(NTD)'], ...result.map(m => [m.name, m.weight.toFixed(2), m.share])];
+    const rows = [['成員', '重量(kg)', '運費(NTD)', '稅金(NTD)', '應付(NTD)'], ...result.map(m => [m.name, m.weight.toFixed(2), m.share, m.taxShare, m.totalShare])];
     const csv = '\ufeff' + rows.map(row => row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(',')).join('\r\n');
     const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
     const anchor = document.createElement('a'); anchor.href = url; anchor.download = '運費分攤結果.csv'; anchor.click(); URL.revokeObjectURL(url);
+  });
+  $('#export-list').addEventListener('click', () => {
+    const payload = { format: 'junwei-shipping-list', version: 1, exportedAt: new Date().toISOString(), presets: state.presets, members: collectMembers() };
+    const url = URL.createObjectURL(new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' }));
+    const anchor = document.createElement('a'); anchor.href = url; anchor.download = '團購成員名單.json'; anchor.click(); URL.revokeObjectURL(url);
+    $('#list-status').textContent = '名單已匯出。';
+  });
+  $('#import-list').addEventListener('click', () => $('#import-file').click());
+  $('#import-file').addEventListener('change', async event => {
+    const file = event.target.files?.[0]; if (!file) return;
+    try {
+      const payload = JSON.parse(await file.text());
+      if (payload?.format !== 'junwei-shipping-list' || !Array.isArray(payload.members) || !payload.members.length || payload.members.length > 200) throw new Error('invalid');
+      const members = payload.members.map(member => ({ name: String(member?.name || '').slice(0, 30), weight: String(member?.weight || '').slice(0, 100) }));
+      if (Array.isArray(payload.presets)) state.presets = [...new Set(payload.presets.map(name => String(name).trim().slice(0, 30)).filter(Boolean))].slice(0, 100);
+      list.replaceChildren(); members.forEach(member => addMember(member)); renderPresets(); save(); updateSummary();
+      $('#list-status').textContent = `已匯入 ${members.length} 位成員。`;
+    } catch { $('#list-status').textContent = '匯入失敗：請選擇由本工具匯出的 JSON 名單。'; }
+    event.target.value = '';
   });
   $('#theme-toggle').addEventListener('click', () => {
     state.theme = state.theme === 'light' ? 'dark' : 'light'; document.documentElement.dataset.theme = state.theme;

@@ -7,7 +7,7 @@
   <title>團購運費計算機</title>
   <meta name="description" content="依重量比例公平分攤團購運費，支援重量加總、常用成員、複製與 CSV 匯出。">
   <link rel="icon" href="../assets/icon/pwa-192.png">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
   <a class="skip-link" href="#calculator">跳到計算區</a>
@@ -25,6 +25,7 @@
 
     <section class="summary-grid" aria-label="計算摘要">
       <article><span>總運費</span><strong id="summary-shipping">NT$ 0</strong></article>
+      <article><span>稅金</span><strong id="summary-tax">NT$ 0</strong></article>
       <article><span>總重量</span><strong id="summary-weight">0.00 kg</strong></article>
       <article><span>成員數</span><strong id="summary-members">0 人</strong></article>
     </section>
@@ -41,6 +42,17 @@
           <span class="money-input"><b>NT$</b><input id="shipping" inputmode="numeric" type="number" min="1" step="1" placeholder="1200" autocomplete="off"></span>
         </label>
 
+        <div class="tax-block">
+          <label class="tax-toggle" for="tax-enabled">
+            <span><strong>是否抽稅</strong><small>稅金將依「稅金 ÷ 成員數」平均分攤</small></span>
+            <span class="switch"><input id="tax-enabled" type="checkbox"><span aria-hidden="true"></span></span>
+          </label>
+          <label id="tax-field" class="field tax-field" for="tax" hidden>
+            <span>稅金總額 <small>NTD</small></span>
+            <span class="money-input"><b>NT$</b><input id="tax" inputmode="numeric" type="number" min="1" step="1" placeholder="300" autocomplete="off"></span>
+          </label>
+        </div>
+
         <div class="presets-block">
           <div class="subheading"><h3>常用成員</h3><span>點一下快速加入</span></div>
           <div id="preset-list" class="preset-list" aria-label="常用成員"></div>
@@ -52,9 +64,17 @@
         </div>
 
         <div class="members-block">
-          <div class="subheading"><h3>本次成員</h3><span>重量可輸入 0.5 + 1.2</span></div>
+          <div class="subheading members-heading">
+            <div><h3>本次成員</h3><span>重量可輸入 0.5 + 1.2</span></div>
+            <div class="list-actions">
+              <button id="export-list" type="button">匯出名單</button>
+              <button id="import-list" type="button">匯入名單</button>
+              <input id="import-file" class="sr-only" type="file" accept="application/json,.json">
+            </div>
+          </div>
           <div id="member-list" class="member-list"></div>
           <button id="add-member" class="add-button" type="button">+　新增一位成員</button>
+          <p id="list-status" class="list-status" role="status" aria-live="polite"></p>
         </div>
 
         <p id="form-error" class="error-message" role="alert" aria-live="polite"></p>
@@ -74,9 +94,9 @@
         <div id="result-content" class="result-content" hidden>
           <div class="result-table-wrap">
             <table>
-              <thead><tr><th>成員</th><th>重量</th><th>比例</th><th>應付</th></tr></thead>
+              <thead><tr><th>成員</th><th>重量</th><th>比例</th><th>運費</th><th>稅金</th><th>應付</th></tr></thead>
               <tbody id="result-rows"></tbody>
-              <tfoot><tr><th>合計</th><td id="result-weight"></td><td>100%</td><td id="result-total"></td></tr></tfoot>
+              <tfoot><tr><th>合計</th><td id="result-weight"></td><td>100%</td><td id="result-shipping"></td><td id="result-tax"></td><td id="result-total"></td></tr></tfoot>
             </table>
           </div>
           <p class="rounding-note">金額以最大餘數法公平取整，加總必定等於總運費。</p>
@@ -103,6 +123,6 @@
       </div>
     </div>
   </template>
-  <script src="app.js" defer></script>
+  <script src="app.js?v=6" defer></script>
 </body>
 </html>
