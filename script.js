@@ -324,18 +324,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'filter_game': '電玩與互動',
             'proj_acad_badge': '學術成果',
             'proj_acad_title': 'ICCT-Pacific 國際學術會議',
+            'proj_acad_highlight': '成果｜最佳學生海報獎',
             'proj_acad_desc': '於 ICCT-Pacific 國際學術研討會上發表學術論文，並憑藉扎實的系統架構與精美的海報設計展示，獲頒「最佳學生海報獎 (Best Student Poster Award)」。',
-            'proj_acad_link': '詳細論文資訊',
+            'proj_acad_link': '查看學術成果相簿',
             'proj_drone_badge': '邊緣運算',
             'proj_drone_title': 'ROS 2 無人機 AI 賦能自主飛行',
             'proj_drone_desc': '整合 ROS 2 與邊緣 AI 電腦，利用視覺避障演算法實作無人機在室內無 GPS 環境下的自主航行，設計並主持了無人機 AI 培訓課程的實作紀錄。',
             'proj_drone_link': '專案文件',
             'proj_infra_badge': '基礎設施',
             'proj_infra_title': '個人極客 Homelab 機櫃佈置',
+            'proj_infra_highlight': '架構｜虛擬化、網路隔離與微服務',
             'proj_infra_desc': '從零建構個人機櫃，採用 Proxmox VE 進行多虛擬機器管理。上層透過 OpenWrt 作為軟路由核心提供 VLAN 隔離、負載均衡與 Docker 微服務部署。',
-            'proj_infra_link': '機櫃拓撲與配置',
+            'proj_infra_link': '查看機櫃成果相簿',
             'proj_mfg_badge': '數位製造',
             'proj_mfg_title': 'Creality 3D 列印機改裝與維修',
+            'proj_mfg_highlight': '成果｜提升列印精度與高速穩定性',
             'proj_mfg_desc': '升級 Y 軸 MGN 雙線性導軌消除底板晃動，重寫 Klipper 控制韌體，並針對近端擠出機與噴頭進行深度拆解維修與自製 3D 列印結構件，顯著提升列印精度與高速穩定性。',
             'proj_mfg_link': '查看維修與改裝相片',
             'filter_ta': '營隊講師 & 助教',
@@ -345,6 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'tag_lab_instruction': '實驗室指導',
             'proj_ta_badge': '營隊講師 & 課程助教',
             'proj_ta_title': '科技營隊研習講師 & 課程助教',
+            'proj_ta_highlight': '角色｜研習講師與電子工程課程助教',
             'proj_ta_desc': '擔任雲林縣國中資優生暑期探索體驗營「半導體與光微影實作」研習講師，帶領學員於實驗室進行晶圓製程與光阻曝光顯影實作；並長期擔任大學電子系專業課程助教，指導微處理器、嵌入式系統與 AIoT 電子電路除錯。',
             'proj_ta_link': '瀏覽營隊與教學花絮相簿',
             'proj_grad_badge': '過往紀錄',
@@ -453,6 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'theme_toggle_aria': '切換深淺色模式',
             'perf_toggle_aria': '切換省電模式',
             'menu_toggle_aria': '打開選單',
+            'menu_close_aria': '關閉選單',
             'lang_toggle_title': '切換語言 / Select Language',
             'game_toggle_aria': '我的遊戲與互動',
             'game_toggle_title': '我的遊戲與互動 / Games & Interactives',
@@ -635,18 +640,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'filter_game': 'Games & Interactive',
             'proj_acad_badge': 'Academic',
             'proj_acad_title': 'ICCT-Pacific International Conference',
+            'proj_acad_highlight': 'Outcome | Best Student Poster Award',
             'proj_acad_desc': 'Presented a paper at the ICCT-Pacific international conference and won the "Best Student Poster Award" for robust system design and presentation.',
-            'proj_acad_link': 'Paper Details',
+            'proj_acad_link': 'View Academic Gallery',
             'proj_drone_badge': 'Edge Computing',
             'proj_drone_title': 'ROS 2 Autonomous Drone Navigation',
             'proj_drone_desc': 'Integrated ROS 2 with edge AI to implement visual obstacle avoidance for GPS-denied indoor flight. Organized and documented hands-on AI drone training courses.',
             'proj_drone_link': 'Project Docs',
             'proj_infra_badge': 'Infrastructure',
             'proj_infra_title': 'Personal Geek Homelab Server Rack',
+            'proj_infra_highlight': 'Architecture | Virtualization, network isolation, microservices',
             'proj_infra_desc': 'Built a custom home server rack from scratch. Uses Proxmox VE for virtualization, with OpenWrt routing handling VLAN isolation, load balancing, and Docker services.',
-            'proj_infra_link': 'Rack Topology & Config',
+            'proj_infra_link': 'View Homelab Gallery',
             'proj_mfg_badge': 'Digital Mfg',
             'proj_mfg_title': 'Creality 3D Printer Modding & Repair',
+            'proj_mfg_highlight': 'Outcome | Improved print accuracy and high-speed stability',
             'proj_mfg_desc': 'Upgraded with Y-axis dual MGN linear rails to eliminate bed wobble, tuned custom Klipper firmware, and performed deep direct-drive extruder and hotend maintenance with custom 3D printed parts.',
             'proj_mfg_link': 'View Mod & Repair Photos',
             'filter_ta': 'Camp Lecturer & TA',
@@ -656,6 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'tag_lab_instruction': 'Lab Instruction',
             'proj_ta_badge': 'Camp Lecturer & Course TA',
             'proj_ta_title': 'Youth Science Camp Lecturer & Course TA',
+            'proj_ta_highlight': 'Role | Workshop lecturer and Electronic Engineering TA',
             'proj_ta_desc': 'Served as a Semiconductor & Photolithography Workshop Lecturer for the Yunlin Gifted Middle Schoolers Summer Science Camp, guiding students in wafer fabrication and UV photolithography; also served as an Electronic Engineering TA guiding microprocessors, embedded systems, and AIoT lab development.',
             'proj_ta_link': 'View Camp & Teaching Album',
             'proj_grad_badge': 'Education Memories',
@@ -764,6 +773,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'theme_toggle_aria': 'Toggle Dark/Light Mode',
             'perf_toggle_aria': 'Toggle Performance Mode',
             'menu_toggle_aria': 'Open Menu',
+            'menu_close_aria': 'Close Menu',
             'lang_toggle_title': 'Select Language',
             'game_toggle_aria': 'Games & Interactives',
             'game_toggle_title': 'Games & Interactives',
@@ -946,18 +956,21 @@ document.addEventListener('DOMContentLoaded', () => {
             'filter_game': 'ゲーム・インタラクション',
             'proj_acad_badge': '学術成果',
             'proj_acad_title': 'ICCT-Pacific 国際会議',
+            'proj_acad_highlight': '成果｜最優秀学生ポスター賞',
             'proj_acad_desc': 'ICCT-Pacific国際学術会議にて論文を発表し、強固なシステム設計と精緻なポスター展示により「最優秀学生ポスター賞 (Best Student Poster Award)」を受賞。',
-            'proj_acad_link': '論文詳細情報',
+            'proj_acad_link': '学術成果ギャラリーを見る',
             'proj_drone_badge': 'エッジ計算',
             'proj_drone_title': 'ROS 2 自律ドローンナビゲーション',
             'proj_drone_desc': 'ROS 2とエッジAIを統合し、GPSのない室内環境における視覚的な障害物回避による自律飛行を実装。実技型ドローンAIトレーニング講座を主催。',
             'proj_drone_link': 'プロジェクト文書',
             'proj_infra_badge': 'インフラ',
             'proj_infra_title': '個人 Homelab サーバラック構築',
+            'proj_infra_highlight': '構成｜仮想化・ネットワーク分離・マイクロサービス',
             'proj_infra_desc': 'サーバラックをゼロから自作。Proxmox VEによる仮想化とOpenWrtソフトルータによるVLAN隔離、負荷分散、Dockerマイクロサービスのデプロイを管理。',
-            'proj_infra_link': 'インフラ構成とトポロジ',
+            'proj_infra_link': 'ホームラボギャラリーを見る',
             'proj_mfg_badge': 'デジタル製造',
             'proj_mfg_title': 'Creality 3D プリンター改造と修理',
+            'proj_mfg_highlight': '成果｜印刷精度と高速安定性を向上',
             'proj_mfg_desc': 'Y軸にMGNデュアルリニアガイドを増設してブレを解消し、ダイレクトエクストルーダーの分解修理を実施。独自プリント部品の設計とKlipper調整により印刷精度と安定性を大幅に向上。',
             'proj_mfg_link': '改造と修理の写真を見る',
             'filter_ta': 'キャンプ講師・TA',
@@ -967,6 +980,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'tag_lab_instruction': '実験室指導',
             'proj_ta_badge': 'キャンプ講師・講義TA',
             'proj_ta_title': '科学キャンプ講師・電子工学教育TA',
+            'proj_ta_highlight': '役割｜研修講師・電子工学科TA',
             'proj_ta_desc': '雲林県中学生ギフテッドサマーサイエンスキャンプにて「半導体とフォトリソグラフィ実習」の講師を担当し、研究室でウェハー製造やUV露光現像を指導。また電子工学科のTAとしてマイクロプロセッサや組込みAIoT回路設計をサポート。',
             'proj_ta_link': 'キャンプ＆教育アルバムを見る',
             'proj_grad_badge': '学生時代',
@@ -1075,6 +1089,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'theme_toggle_aria': 'テーマ切替',
             'perf_toggle_aria': '省電力モード切替',
             'menu_toggle_aria': 'メニューを開く',
+            'menu_close_aria': 'メニューを閉じる',
             'lang_toggle_title': '言語切り替え',
             'game_toggle_aria': 'ゲームとインタラクティブ',
             'game_toggle_title': 'ゲームとインタラクティブ',
@@ -1339,42 +1354,39 @@ document.addEventListener('DOMContentLoaded', () => {
     const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
     const navMenu = document.getElementById('nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
-    
-    mobileMenuToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
+
+    const setMobileMenuOpen = (isOpen) => {
+        navMenu.classList.toggle('active', isOpen);
+        mobileMenuToggle.setAttribute('aria-expanded', String(isOpen));
+        const labelKey = isOpen ? 'menu_close_aria' : 'menu_toggle_aria';
+        const menuLabel = translations[activeLanguage]?.[labelKey] || (isOpen ? '關閉選單' : '打開選單');
+        mobileMenuToggle.setAttribute('aria-label', menuLabel);
+
         const icon = mobileMenuToggle.querySelector('i, svg');
         if (icon) {
-            if (navMenu.classList.contains('active')) {
-                icon.setAttribute('data-lucide', 'x');
-            } else {
-                icon.setAttribute('data-lucide', 'menu');
-            }
+            icon.setAttribute('data-lucide', isOpen ? 'x' : 'menu');
             if (typeof lucide !== 'undefined') lucide.createIcons();
         }
+    };
+
+    mobileMenuToggle.addEventListener('click', () => {
+        setMobileMenuOpen(!navMenu.classList.contains('active'));
     });
 
     // Close menu when clicking a link
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
-            navMenu.classList.remove('active');
-            const icon = mobileMenuToggle.querySelector('i, svg');
-            if (icon) {
-                icon.setAttribute('data-lucide', 'menu');
-                if (typeof lucide !== 'undefined') lucide.createIcons();
-            }
+            setMobileMenuOpen(false);
         });
     });
 
     // Close menu when clicking outside
     document.addEventListener('click', (e) => {
         if (navMenu.classList.contains('active')) {
-            if (!navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
-                navMenu.classList.remove('active');
-                const icon = mobileMenuToggle.querySelector('i, svg');
-                if (icon) {
-                    icon.setAttribute('data-lucide', 'menu');
-                    if (typeof lucide !== 'undefined') lucide.createIcons();
-                }
+            const clickPath = typeof e.composedPath === 'function' ? e.composedPath() : [];
+            const clickedToggle = clickPath.includes(mobileMenuToggle);
+            if (!navMenu.contains(e.target) && !clickedToggle) {
+                setMobileMenuOpen(false);
             }
         }
     });
@@ -1465,14 +1477,22 @@ document.addEventListener('DOMContentLoaded', () => {
     tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             // Remove active class from all buttons and panes
-            tabBtns.forEach(b => b.classList.remove('active'));
-            tabPanes.forEach(p => p.classList.remove('active'));
+            tabBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-selected', 'false');
+            });
+            tabPanes.forEach(p => {
+                p.classList.remove('active');
+                p.hidden = true;
+            });
             
             // Add active to clicked button and target pane
             btn.classList.add('active');
+            btn.setAttribute('aria-selected', 'true');
             const tabId = btn.getAttribute('data-tab');
             const targetPane = document.getElementById(`tab-${tabId}`);
             targetPane.classList.add('active');
+            targetPane.hidden = false;
             
             // Trigger animation on progress bars
             animateTabBars(targetPane);
@@ -1486,8 +1506,12 @@ document.addEventListener('DOMContentLoaded', () => {
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             // Toggle active btn
-            filterBtns.forEach(b => b.classList.remove('active'));
+            filterBtns.forEach(b => {
+                b.classList.remove('active');
+                b.setAttribute('aria-pressed', 'false');
+            });
             btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
             
             const filterValue = btn.getAttribute('data-filter');
             
@@ -1513,116 +1537,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 9. Contact Form Validation and Mock Submission
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        const formSuccessAlert = document.getElementById('form-success-alert');
-        const btnSubmit = document.getElementById('btn-submit');
-        const btnResetForm = document.getElementById('btn-reset-form');
-        
-        const fields = {
-            name: { input: document.getElementById('form-name'), error: document.getElementById('name-error') },
-            email: { input: document.getElementById('form-email'), error: document.getElementById('email-error') },
-            subject: { input: document.getElementById('form-subject'), error: document.getElementById('subject-error') },
-            message: { input: document.getElementById('form-message'), error: document.getElementById('message-error') }
-        };
-
-        // Regex for basic email verification
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-        // Helper to validate single field
-        const validateField = (fieldKey) => {
-            const field = fields[fieldKey];
-            if (!field || !field.input) return true;
-            const val = field.input.value.trim();
-            const parent = field.input.parentElement;
-            
-            let isValid = true;
-            
-            if (fieldKey === 'email') {
-                isValid = emailRegex.test(val);
-            } else {
-                isValid = val !== '';
-            }
-            
-            if (isValid) {
-                parent.classList.remove('invalid');
-            } else {
-                parent.classList.add('invalid');
-            }
-            
-            return isValid;
-        };
-
-        // Remove errors dynamically when user types
-        Object.keys(fields).forEach(key => {
-            if (fields[key] && fields[key].input) {
-                fields[key].input.addEventListener('input', () => {
-                    const parent = fields[key].input.parentElement;
-                    if (parent.classList.contains('invalid')) {
-                        validateField(key);
-                    }
-                });
-            }
-        });
-
-        // Form Submission
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            let isFormValid = true;
-            Object.keys(fields).forEach(key => {
-                const isFieldValid = validateField(key);
-                if (!isFieldValid) isFormValid = false;
-            });
-
-            if (isFormValid) {
-                // Trigger submit loading status
-                if (btnSubmit) {
-                    btnSubmit.setAttribute('disabled', 'true');
-                    const sendingText = (translations[activeLanguage] && translations[activeLanguage]['form_btn_sending']) || 'Sending...';
-                    btnSubmit.querySelector('.btn-text').textContent = sendingText;
-                    btnSubmit.querySelector('.btn-icon').classList.add('hide');
-                    btnSubmit.querySelector('.spinner').classList.remove('hide');
-                }
-
-                // Simulate server network latency (1.5 seconds)
-                setTimeout(() => {
-                    // Hide Form and Show Success Alert
-                    contactForm.classList.add('hide');
-                    if (formSuccessAlert) formSuccessAlert.classList.remove('hide');
-                    
-                    // Reset submit button state
-                    if (btnSubmit) {
-                        btnSubmit.removeAttribute('disabled');
-                        const submitText = (translations[activeLanguage] && translations[activeLanguage]['form_btn_submit']) || 'Send Message';
-                        btnSubmit.querySelector('.btn-text').textContent = submitText;
-                        btnSubmit.querySelector('.btn-icon').classList.remove('hide');
-                        btnSubmit.querySelector('.spinner').classList.add('hide');
-                    }
-                }, 1500);
-            }
-        });
-
-        // Reset Form to send another message
-        if (btnResetForm) {
-            btnResetForm.addEventListener('click', () => {
-                // Reset inputs
-                contactForm.reset();
-                Object.keys(fields).forEach(key => {
-                    if (fields[key] && fields[key].input) {
-                        fields[key].input.parentElement.classList.remove('invalid');
-                    }
-                });
-                
-                // Toggle view
-                if (formSuccessAlert) formSuccessAlert.classList.add('hide');
-                contactForm.classList.remove('hide');
-            });
-        }
-    }
-
-    // 10. Lightbox Gallery Modal
+    // 9. Lightbox Gallery Modal
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
     const lightboxCaption = document.getElementById('lightbox-caption');
@@ -1666,7 +1581,7 @@ document.addEventListener('DOMContentLoaded', () => {
             { src: 'assets/graduation/graduation-senior-2.webp', caption: '國立虎尾科技大學電子系 - 與實驗室的學長們拍學士服照 (2)', caption_key: 'gallery_grad_2' },
             { src: 'assets/graduation/graduation-dean.webp', caption: '國立虎尾科技大學電子系 - 畢業典禮與院長及實驗室學長合影', caption_key: 'gallery_grad_3' },
             { src: 'assets/graduation/graduation-teacher.webp', caption: '雲林西螺農工電子科 - 畢業時與班導楊媽穿著學士服合影留念', caption_key: 'gallery_grad_4' },
-            { src: 'assets/graduation/graduation-friend.webp', caption: '雲林西螺農工電子科 - 畢業時與合作夥伴極摯友鐘明穎在西螺農工校園合影', caption_key: 'gallery_grad_5' }
+            { src: 'assets/travel/travel-friend-campus.webp', caption: '雲林西螺農工電子科 - 畢業時與合作夥伴極摯友鐘明穎在西螺農工校園合影', caption_key: 'gallery_grad_5' }
         ],
         friends: [
             { src: 'assets/travel/travel-okayama-castle.webp', caption: '日本岡山市 - 與朋友們一同造訪著名的「岡山城」合照', caption_key: 'gallery_friends_1' },
@@ -1681,15 +1596,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let currentGallery = [];
     let currentIndex = 0;
+    let lightboxReturnFocus = null;
+    const lightboxFocusableSelector = 'button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])';
 
     const openLightbox = (galleryKey, imageSrc) => {
         currentGallery = galleries[galleryKey] || [];
         const foundIndex = currentGallery.findIndex(item => imageSrc.includes(item.src));
         currentIndex = foundIndex !== -1 ? foundIndex : 0;
+        lightboxReturnFocus = document.activeElement;
 
         updateLightboxContent();
         lightbox.classList.remove('hide');
-        setTimeout(() => lightbox.classList.add('active'), 50);
+        lightbox.setAttribute('aria-hidden', 'false');
+        setTimeout(() => {
+            lightbox.classList.add('active');
+            btnClose?.focus();
+        }, 50);
         document.body.style.overflow = 'hidden';
     };
 
@@ -1727,8 +1649,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const closeLightbox = () => {
         lightbox.classList.remove('active');
+        lightbox.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
-        setTimeout(() => lightbox.classList.add('hide'), 300);
+        setTimeout(() => {
+            lightbox.classList.add('hide');
+            if (lightboxReturnFocus instanceof HTMLElement) lightboxReturnFocus.focus();
+            lightboxReturnFocus = null;
+        }, 300);
     };
 
     const projectCardElements = document.querySelectorAll('.project-card');
@@ -1792,6 +1719,21 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.key === 'Escape') closeLightbox();
             if (e.key === 'ArrowRight') nextImage();
             if (e.key === 'ArrowLeft') prevImage();
+            if (e.key === 'Tab') {
+                const focusable = [...lightbox.querySelectorAll(lightboxFocusableSelector)]
+                    .filter(element => element.offsetParent !== null);
+                if (focusable.length === 0) return;
+
+                const first = focusable[0];
+                const last = focusable[focusable.length - 1];
+                if (e.shiftKey && document.activeElement === first) {
+                    e.preventDefault();
+                    last.focus();
+                } else if (!e.shiftKey && document.activeElement === last) {
+                    e.preventDefault();
+                    first.focus();
+                }
+            }
         }
     });
 
@@ -2121,7 +2063,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('resize', resizeCanvas, { passive: true });
         
         window.addEventListener('perfModeChanged', () => {
-            if (!document.body.classList.contains('eco-mode')) {
+            if (!prefersReducedMotion && !document.body.classList.contains('eco-mode')) {
                 if (!animationFrameId) {
                     animate();
                 }
@@ -2201,7 +2143,9 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(document.documentElement, { attributes: true });
 
         resizeCanvas();
-        animate();
+        if (!prefersReducedMotion && !document.body.classList.contains('eco-mode')) {
+            animate();
+        }
     };
 
     

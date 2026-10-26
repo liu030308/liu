@@ -1,14 +1,15 @@
-const CACHE_NAME = 'junwei-portfolio-v1';
+const CACHE_NAME = 'junwei-portfolio-v2';
 const CORE_ASSETS = [
     './',
-    './index.html',
     './index.css',
     './script.js',
     './manifest.json',
-    './assets/icon/logo.png',
-    './assets/icon/logo-white.png',
-    './assets/icon/github.png',
-    './assets/icon/instagram.png'
+    './assets/icon/logo-white-nav.webp',
+    './assets/icon/logo-nav.webp',
+    './assets/icon/pwa-192.png',
+    './assets/icon/pwa-512.png',
+    './assets/icon/github.webp',
+    './assets/icon/instagram.webp'
 ];
 
 self.addEventListener('install', (event) => {

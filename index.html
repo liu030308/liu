@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b0f19" id="theme-color-meta">
-    <link rel="icon" href="assets/icon/logo.png" type="image/png">
+    <link rel="icon" href="assets/icon/pwa-192.png" type="image/png">
     <title data-i18n="page_title">劉峻瑋 | Jun Wei Liu</title>
     <meta name="description"
         content="網路工程師與 AIoT/邊緣運算開發者個人網站。專注於底層基礎設施（Proxmox、Docker、OpenWrt）、ROS 2 無人機控制與 3D 列印數位製造。">
@@ -24,8 +24,8 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
         rel="stylesheet">
 
-    <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Lucide Icons (version pinned for reproducible builds) -->
+    <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
 
     <!-- Main CSS -->
     <link rel="stylesheet" href="index.css">
@@ -35,7 +35,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Jun Wei Liu">
-    <link rel="apple-touch-icon" href="assets/icon/logo.png">
+    <link rel="apple-touch-icon" href="assets/icon/pwa-192.png">
 
     <!-- Security & Privacy Policies -->
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -55,11 +55,11 @@
       "name": "劉峻瑋 (Jun Wei Liu)",
       "jobTitle": "Network & AIoT Engineer",
       "alumniOf": "國立虎尾科技大學 (National Formosa University)",
-      "url": "https://liu0308.us.kg",
+      "url": "https://xn--bfry6vtzs.tw/",
       "image": "assets/profile/profile-avatar.webp",
       "sameAs": [
-        "https://github.com/asaz1115",
-        "https://www.instagram.com/liu_03.08"
+        "https://github.com/ma4980",
+        "https://www.instagram.com/liu030308/"
       ]
     }
     </script>
@@ -76,11 +76,11 @@
     <header class="navbar" id="navbar">
         <div class="container navbar-container">
             <a href="#" class="nav-logo">
-                <img src="assets/icon/logo-white.webp" alt="Jun Wei Liu Logo" class="logo-img logo-dark-theme" width="140" height="42" decoding="async">
-                <img src="assets/icon/logo.webp" alt="Jun Wei Liu Logo" class="logo-img logo-light-theme" width="140" height="42" decoding="async">
+                <img src="assets/icon/logo-white-nav.webp" alt="Jun Wei Liu Logo" class="logo-img logo-dark-theme" width="96" height="96" decoding="async">
+                <img src="assets/icon/logo-nav.webp" alt="Jun Wei Liu Logo" class="logo-img logo-light-theme" width="96" height="89" decoding="async">
             </a>
 
-            <nav class="nav-menu" id="nav-menu">
+            <nav class="nav-menu" id="nav-menu" aria-label="主要導覽">
                 <ul>
                     <li><a href="#about" class="nav-link active" id="nav-link-about" data-i18n="nav_about">關於我</a></li>
                     <li><a href="#skills" class="nav-link" id="nav-link-skills" data-i18n="nav_skills">專業技能</a></li>
@@ -159,8 +159,9 @@
                     <i data-lucide="sun" class="sun-icon"></i>
                     <i data-lucide="moon" class="moon-icon"></i>
                 </button>
-                <button class="btn-menu-mobile" id="mobile-menu-toggle" data-i18n-aria-label="menu_toggle_aria"
-                    aria-label="打開選單">
+                <button class="btn-menu-mobile" id="mobile-menu-toggle" type="button"
+                    data-i18n-aria-label="menu_toggle_aria" aria-label="打開選單"
+                    aria-controls="nav-menu" aria-expanded="false">
                     <i data-lucide="menu"></i>
                 </button>
             </div>
@@ -285,7 +286,7 @@
                                     aria-label="GitHub"><img src="assets/icon/github.webp" alt="GitHub" width="20" height="20" loading="lazy" decoding="async"
                                         class="social-icon-img"></a>
                                 <a href="https://www.instagram.com/liu030308/" target="_blank" rel="noopener"
-                                    class="ig-hover-qr-container" aria-label="Instagram"><img src="assets/icon/instagram.png"
+                                    class="ig-hover-qr-container" aria-label="Instagram"><img src="assets/icon/instagram.webp"
                                         alt="Instagram" class="social-icon-img"><span class="ig-hover-qr"><img
                                             src="assets/icon/ig-qr.webp" alt="Instagram QR Code" width="140" height="205" loading="lazy" decoding="async"><span
                                             class="qr-tooltip-text" data-i18n="qr_tooltip">掃描追蹤 IG</span></span></a>
@@ -372,21 +373,21 @@
                 </div>
 
                 <div class="skills-tab-container reveal">
-                    <div class="skills-tabs">
-                        <button class="tab-btn active" data-tab="infra">
+                    <div class="skills-tabs" role="tablist" aria-label="技能分類">
+                        <button class="tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="tab-infra" data-tab="infra">
                             <i data-lucide="server"></i> <span data-i18n="skills_tab_infra">網路與基礎設施</span>
                         </button>
-                        <button class="tab-btn" data-tab="aiot">
+                        <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-aiot" data-tab="aiot">
                             <i data-lucide="cpu"></i> <span data-i18n="skills_tab_aiot">軟體與 AIoT 邊緣運算</span>
                         </button>
-                        <button class="tab-btn" data-tab="mfg">
+                        <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-mfg" data-tab="mfg">
                             <i data-lucide="wrench"></i> <span data-i18n="skills_tab_mfg">數位製造與硬體</span>
                         </button>
                     </div>
 
                     <div class="skills-content">
                         <!-- Infrastructure skills tab -->
-                        <div class="tab-pane active" id="tab-infra">
+                        <div class="tab-pane active" id="tab-infra" role="tabpanel">
                             <div class="skills-grid">
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -439,7 +440,7 @@
                         </div>
 
                         <!-- AIoT skills tab -->
-                        <div class="tab-pane" id="tab-aiot">
+                        <div class="tab-pane" id="tab-aiot" role="tabpanel" hidden>
                             <div class="skills-grid">
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -493,7 +494,7 @@
                         </div>
 
                         <!-- Manufacturing skills tab -->
-                        <div class="tab-pane" id="tab-mfg">
+                        <div class="tab-pane" id="tab-mfg" role="tabpanel" hidden>
                             <div class="skills-grid">
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -545,13 +546,13 @@
                     <p class="section-tagline" data-i18n="projects_tagline">從實作中累積，以成果來證明</p>
                 </div>
 
-                <div class="portfolio-filters reveal">
-                    <button class="filter-btn active" data-filter="all" data-i18n="filter_all">全部</button>
-                    <button class="filter-btn" data-filter="academic" data-i18n="filter_academic">學術與研討會</button>
-                    <button class="filter-btn" data-filter="ta" data-i18n="filter_ta">營隊講師 & 助教</button>
-                    <button class="filter-btn" data-filter="infra" data-i18n="filter_infra">基礎設施</button>
-                    <button class="filter-btn" data-filter="mfg" data-i18n="filter_mfg">數位製造</button>
-                    <button class="filter-btn" data-filter="memories" data-i18n="filter_memories">過往與生活</button>
+                <div class="portfolio-filters reveal" role="group" aria-label="作品篩選">
+                    <button class="filter-btn active" type="button" aria-pressed="true" data-filter="all" data-i18n="filter_all">全部</button>
+                    <button class="filter-btn" type="button" aria-pressed="false" data-filter="academic" data-i18n="filter_academic">學術與研討會</button>
+                    <button class="filter-btn" type="button" aria-pressed="false" data-filter="ta" data-i18n="filter_ta">營隊講師 & 助教</button>
+                    <button class="filter-btn" type="button" aria-pressed="false" data-filter="infra" data-i18n="filter_infra">基礎設施</button>
+                    <button class="filter-btn" type="button" aria-pressed="false" data-filter="mfg" data-i18n="filter_mfg">數位製造</button>
+                    <button class="filter-btn" type="button" aria-pressed="false" data-filter="memories" data-i18n="filter_memories">過往與生活</button>
                 </div>
 
                 <div class="portfolio-grid" id="portfolio-grid">
@@ -567,13 +568,14 @@
                                 <span class="tech-tag">ICCT-Pacific</span>
                             </span>
                             <h3 class="project-title" data-i18n="proj_acad_title">ICCT-Pacific 國際學術會議</h3>
+                            <p class="project-highlight" data-i18n="proj_acad_highlight">成果｜最佳學生海報獎</p>
                             <p class="project-desc" data-i18n="proj_acad_desc">
                                 於 ICCT-Pacific 國際學術研討會上發表學術論文，並憑藉扎實的系統架構與精美的海報設計展示，獲頒「最佳學生海報獎 (Best Student Poster
                                 Award)」。
                             </p>
-                            <a href="#" class="btn-project-link">
-                                <span data-i18n="proj_acad_link">詳細論文資訊</span> <i data-lucide="external-link"></i>
-                            </a>
+                            <button type="button" class="btn-project-link">
+                                <span data-i18n="proj_acad_link">查看學術成果相簿</span> <i data-lucide="image"></i>
+                            </button>
                         </div>
                     </article>
 
@@ -591,12 +593,13 @@
                                 <span class="tech-tag">Docker</span>
                             </span>
                             <h3 class="project-title" data-i18n="proj_infra_title">個人極客 Homelab 機櫃佈置</h3>
+                            <p class="project-highlight" data-i18n="proj_infra_highlight">架構｜虛擬化、網路隔離與微服務</p>
                             <p class="project-desc" data-i18n="proj_infra_desc">
                                 從零建構個人機櫃，採用 Proxmox VE 進行多虛擬機器管理。上層透過 OpenWrt 作為軟路由核心提供 VLAN 隔離、負載均衡與 Docker 微服務部署。
                             </p>
-                            <a href="#" class="btn-project-link">
-                                <span data-i18n="proj_infra_link">機櫃拓撲與配置</span> <i data-lucide="external-link"></i>
-                            </a>
+                            <button type="button" class="btn-project-link">
+                                <span data-i18n="proj_infra_link">查看機櫃成果相簿</span> <i data-lucide="image"></i>
+                            </button>
                         </div>
                     </article>
 
@@ -614,12 +617,13 @@
                                 <span class="tech-tag">硬體維修</span>
                             </span>
                             <h3 class="project-title" data-i18n="proj_mfg_title">Creality 3D 列印機改裝與維修</h3>
+                            <p class="project-highlight" data-i18n="proj_mfg_highlight">成果｜提升列印精度與高速穩定性</p>
                             <p class="project-desc" data-i18n="proj_mfg_desc">
                                 升級 Y 軸 MGN 雙線性導軌消除底板晃動，重寫 Klipper 控制韌體，並針對近端擠出機與噴頭進行深度拆解維修與自製 3D 列印結構件，顯著提升列印精度與高速穩定性。
                             </p>
-                            <a href="#" class="btn-project-link">
+                            <button type="button" class="btn-project-link">
                                 <span data-i18n="proj_mfg_link">查看維修與改裝相片</span> <i data-lucide="image"></i>
-                            </a>
+                            </button>
                         </div>
                     </article>
 
@@ -639,12 +643,13 @@
                                 <span class="tech-tag" data-i18n="tag_lab_instruction">實驗室指導</span>
                             </span>
                             <h3 class="project-title" data-i18n="proj_ta_title">科技營隊研習講師 & 課程助教</h3>
+                            <p class="project-highlight" data-i18n="proj_ta_highlight">角色｜研習講師與電子工程課程助教</p>
                             <p class="project-desc" data-i18n="proj_ta_desc">
                                 擔任雲林縣國中資優生暑期探索體驗營「半導體與光微影實作」研習講師，帶領學員於實驗室進行晶圓製程與光微影技術探索；並長期擔任大學電子系專業課程助教，指導微處理器、嵌入式系統與 AIoT 電子電路除錯。
                             </p>
-                            <a href="#" class="btn-project-link">
+                            <button type="button" class="btn-project-link">
                                 <span data-i18n="proj_ta_link">瀏覽營隊與教學花絮相簿</span> <i data-lucide="image"></i>
-                            </a>
+                            </button>
                         </div>
                     </article>
 
@@ -666,9 +671,9 @@
                             <p class="project-desc" data-i18n="proj_grad_desc">
                                 記錄我在雲林西螺農工電子科與國立虎尾科技大學電子工程系的學習歲月，收錄了與老師、實驗室學長及同儕們珍貴的學士服合影。
                             </p>
-                            <a href="#" class="btn-project-link">
-                                <span data-i18n="proj_grad_link">瀏覽學士服相簿</span> <i data-lucide="external-link"></i>
-                            </a>
+                            <button type="button" class="btn-project-link">
+                                <span data-i18n="proj_grad_link">瀏覽學士服相簿</span> <i data-lucide="image"></i>
+                            </button>
                         </div>
                     </article>
 
@@ -689,9 +694,9 @@
                             <p class="project-desc" data-i18n="proj_travel_desc">
                                 分享與朋友們共同探索世界的精彩旅程，收錄了在岡山城、日本山口大學及嚴島神社的海上帝居等旅行紀念合照。
                             </p>
-                            <a href="#" class="btn-project-link">
-                                <span data-i18n="proj_travel_link">瀏覽旅行相簿</span> <i data-lucide="external-link"></i>
-                            </a>
+                            <button type="button" class="btn-project-link">
+                                <span data-i18n="proj_travel_link">瀏覽旅行相簿</span> <i data-lucide="image"></i>
+                            </button>
                         </div>
                     </article>
                 </div>
@@ -820,7 +825,8 @@
     </footer>
 
     <!-- Lightbox Modal -->
-    <div id="lightbox" class="lightbox hide">
+    <div id="lightbox" class="lightbox hide" role="dialog" aria-modal="true"
+        aria-hidden="true" aria-labelledby="lightbox-caption">
         <button class="lightbox-close" id="lightbox-close" aria-label="關閉" data-i18n-aria-label="lightbox_close"><i
                 data-lucide="x"></i></button>
         <button class="lightbox-nav prev" id="lightbox-prev" aria-label="上一張" data-i18n-aria-label="lightbox_prev"><i
@@ -839,7 +845,7 @@
     </button>
 
     <!-- Main JavaScript -->
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
 </body>
 
 </html>

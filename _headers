@@ -1,4 +1,6 @@
 # Security and Caching Headers for Cloudflare Pages / Vercel / Netlify
+# Note: GitHub Pages ignores this file. Put the site behind a configurable CDN
+# or migrate hosting before relying on these response headers.
 /*
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
