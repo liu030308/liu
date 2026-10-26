@@ -1,4 +1,4 @@
-const CACHE_NAME = 'junwei-portfolio-v3';
+const CACHE_NAME = 'junwei-portfolio-v4';
 const CORE_ASSETS = [
     './',
     './index.css',
@@ -9,7 +9,10 @@ const CORE_ASSETS = [
     './assets/icon/pwa-192.png',
     './assets/icon/pwa-512.png',
     './assets/icon/github.webp',
-    './assets/icon/instagram.webp'
+    './assets/icon/instagram.webp',
+    './shipping-calculator/',
+    './shipping-calculator/style.css',
+    './shipping-calculator/app.js'
 ];
 
 self.addEventListener('install', (event) => {
@@ -46,9 +49,9 @@ self.addEventListener('fetch', (event) => {
     // Cache-first for static assets, network-first for navigation
     if (request.mode === 'navigate') {
         event.respondWith(
-            fetch(request).catch(() => {
-                return caches.match('./index.html') || caches.match(request);
-            })
+            fetch(request).catch(() => caches.match(request).then((cachedResponse) => {
+                return cachedResponse || caches.match('./index.html');
+            }))
         );
         return;
     }
