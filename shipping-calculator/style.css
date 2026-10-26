@@ -9,6 +9,8 @@
 /* Tax, list transfer, and number-input refinements */
 .summary-grid{grid-template-columns:repeat(4,1fr)}
 .workspace,.panel{min-width:0}.result-table-wrap{max-width:100%}
+.product-import{margin-bottom:1rem}.product-import button{padding:.65rem .9rem;background:var(--panel-2);border:1px solid var(--line);border-radius:10px;color:var(--text);cursor:pointer}.product-import p{font-size:.78rem;color:var(--cyan)}.product-picker{grid-column:2/-1;grid-row:2}.product-select{width:100%;min-width:0;padding:.65rem;background:var(--panel-2);color:var(--text);border:1px solid var(--line);border-radius:10px}.product-select:focus-visible{outline:2px solid var(--cyan)}
+@media(max-width:600px){.product-picker{grid-column:1/-1;grid-row:auto}.summary-grid{grid-template-columns:repeat(2,1fr)}}
 .money-input input{appearance:textfield;-moz-appearance:textfield}
 .money-input input:focus-visible{outline:0}
 .money-input input::-webkit-inner-spin-button,.money-input input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'junwei-portfolio-v6';
+const CACHE_NAME = 'junwei-portfolio-v7';
 const CORE_ASSETS = [
     './',
     './index.css',
@@ -11,8 +11,10 @@ const CORE_ASSETS = [
     './assets/icon/github.webp',
     './assets/icon/instagram.webp',
     './shipping-calculator/',
-    './shipping-calculator/style.css?v=6',
-    './shipping-calculator/app.js?v=6'
+    './shipping-calculator/style.css?v=7',
+    './shipping-calculator/app.js?v=7',
+    './shipping-calculator/vendor/xlsx.full.min.js',
+    './shipping-calculator/vendor/opencc.js'
 ];
 
 self.addEventListener('install', (event) => {

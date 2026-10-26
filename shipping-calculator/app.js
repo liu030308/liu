@@ -7,6 +7,14 @@
   const template = $('#member-template');
   const error = $('#form-error');
   let result = [];
+  let products = [];
+  const traditional = text => window.OpenCC ? OpenCC.Converter({ from: 'cn', to: 'tw' })(String(text)) : String(text);
+  const refreshProducts = () => {
+    document.querySelectorAll('.product-select').forEach(select => {
+      select.replaceChildren(new Option('選擇物品，自動加入重量', ''));
+      products.forEach((item, index) => select.add(new Option(`${item.name}（${item.weight} 公斤）`, String(index))));
+    });
+  };
 
   const readState = () => {
     try {
@@ -61,6 +69,13 @@
       save(); updateSummary();
     };
     row.addEventListener('input', recalc);
+    $('.product-select', row).addEventListener('change', event => {
+      const item = products[Number(event.target.value)];
+      if (event.target.value === '' || !item) return;
+      const input = $('.member-weight', row);
+      input.value = input.value.trim() ? `${input.value.trim()} + ${item.weight}` : String(item.weight);
+      recalc(); event.target.value = '';
+    });
     $('.remove-member', row).addEventListener('click', () => {
       row.remove();
       if (!list.children.length) addMember();
@@ -74,7 +89,7 @@
     };
     $('.move-up', row).addEventListener('click', () => move(-1));
     $('.move-down', row).addEventListener('click', () => move(1));
-    list.append(row); recalc();
+    list.append(row); recalc(); refreshProducts();
     if (focus) $('.member-name', row).focus();
   };
 
@@ -124,10 +139,9 @@
     });
     let remainder = shipping - members.reduce((sum, m) => sum + m.share, 0);
     [...members].sort((a, b) => b.fraction - a.fraction || a.order - b.order).slice(0, remainder).forEach(m => m.share++);
-    const taxBase = Math.floor(tax / members.length);
-    const taxRemainder = tax - taxBase * members.length;
+    const taxBase = Math.ceil(tax / members.length);
     members.forEach((m, index) => {
-      m.taxShare = taxBase + (index < taxRemainder ? 1 : 0);
+      m.taxShare = taxBase;
       m.totalShare = m.share + m.taxShare;
     });
     result = members;
@@ -141,8 +155,8 @@
     });
     $('#result-weight').textContent = `${totalWeight.toFixed(2)} kg`;
     $('#result-shipping').textContent = money(shipping);
-    $('#result-tax').textContent = money(tax);
-    $('#result-total').textContent = money(shipping + tax);
+    $('#result-tax').textContent = money(taxBase * members.length);
+    $('#result-total').textContent = money(shipping + taxBase * members.length);
     $('#empty-result').hidden = true; $('#result-content').hidden = false;
     $('#result-status').textContent = '計算完成'; $('#result-status').classList.add('ready');
     updateSummary(); save();
@@ -201,6 +215,31 @@
     $('#list-status').textContent = '名單已匯出。';
   });
   $('#import-list').addEventListener('click', () => $('#import-file').click());
+  $('#import-products').addEventListener('click', () => $('#products-file').click());
+  $('#products-file').addEventListener('change', async event => {
+    const file = event.target.files?.[0]; if (!file) return;
+    try {
+      if (file.size > 20 * 1024 * 1024) throw new Error('size');
+      const workbook = XLSX.read(await file.arrayBuffer(), { type: 'array' });
+      const imported = [];
+      for (const sheetName of workbook.SheetNames) {
+        const rows = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: '' });
+        const headerIndex = rows.findIndex(row => row.some(cell => traditional(cell).trim() === '物品名稱') && row.some(cell => traditional(cell).trim() === '包裹重量'));
+        if (headerIndex < 0) continue;
+        const headers = rows[headerIndex].map(cell => traditional(cell).trim());
+        const nameIndex = headers.indexOf('物品名稱'), weightIndex = headers.indexOf('包裹重量');
+        for (const row of rows.slice(headerIndex + 1)) {
+          const name = traditional(row[nameIndex]).trim();
+          const weight = Number(String(row[weightIndex]).replace(/(?:kg|公斤|千克)/gi, '').trim());
+          if (name && Number.isFinite(weight) && weight > 0) imported.push({ name, weight });
+        }
+      }
+      if (!imported.length) throw new Error('empty');
+      products = imported; refreshProducts();
+      $('#products-status').textContent = `已匯入 ${products.length} 項物品，請在成員下方選擇物品。`;
+    } catch { $('#products-status').textContent = '匯入失敗：請使用包含「物品名稱」與「包裹重量」欄位的 Excel 檔案。'; }
+    event.target.value = '';
+  });
   $('#import-file').addEventListener('change', async event => {
     const file = event.target.files?.[0]; if (!file) return;
     try {

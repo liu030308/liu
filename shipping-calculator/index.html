@@ -7,7 +7,7 @@
   <title>團購運費計算機</title>
   <meta name="description" content="依重量比例公平分攤團購運費，支援重量加總、常用成員、複製與 CSV 匯出。">
   <link rel="icon" href="../assets/icon/pwa-192.png">
-  <link rel="stylesheet" href="style.css?v=6">
+  <link rel="stylesheet" href="style.css?v=7">
 </head>
 <body>
   <a class="skip-link" href="#calculator">跳到計算區</a>
@@ -44,7 +44,7 @@
 
         <div class="tax-block">
           <label class="tax-toggle" for="tax-enabled">
-            <span><strong>是否抽稅</strong><small>稅金將依「稅金 ÷ 成員數」平均分攤</small></span>
+            <span><strong>是否抽稅</strong><small>每人稅金＝稅金 ÷ 成員數，無條件進位至整數元</small></span>
             <span class="switch"><input id="tax-enabled" type="checkbox"><span aria-hidden="true"></span></span>
           </label>
           <label id="tax-field" class="field tax-field" for="tax" hidden>
@@ -64,6 +64,11 @@
         </div>
 
         <div class="members-block">
+          <div class="product-import">
+            <button id="import-products" type="button">匯入 Excel 物品</button>
+            <input id="products-file" type="file" accept=".xlsx" hidden>
+            <p id="products-status" role="status"></p>
+          </div>
           <div class="subheading members-heading">
             <div><h3>本次成員</h3><span>重量可輸入 0.5 + 1.2</span></div>
             <div class="list-actions">
@@ -99,7 +104,7 @@
               <tfoot><tr><th>合計</th><td id="result-weight"></td><td>100%</td><td id="result-shipping"></td><td id="result-tax"></td><td id="result-total"></td></tr></tfoot>
             </table>
           </div>
-          <p class="rounding-note">金額以最大餘數法公平取整，加總必定等於總運費。</p>
+          <p class="rounding-note">運費依重量分攤並精準取整；每人稅金無條件進位，因此稅金實收合計可能高於原稅金。</p>
           <div class="result-actions">
             <button id="copy-result" type="button">複製結果</button>
             <button id="export-csv" type="button">匯出 CSV</button>
@@ -115,6 +120,7 @@
       <span class="drag-handle" aria-hidden="true">⋮⋮</span>
       <label><span class="sr-only">成員姓名</span><input class="member-name" maxlength="30" placeholder="姓名" autocomplete="off"></label>
       <label><span class="sr-only">重量計算式</span><input class="member-weight" inputmode="decimal" placeholder="0.5 + 1.2" autocomplete="off"></label>
+      <label class="product-picker"><span class="sr-only">選擇物品並加入重量</span><select class="product-select" aria-label="選擇物品並加入重量"><option value="">選擇物品，自動加入重量</option></select></label>
       <output class="member-total">0.00 kg</output>
       <div class="row-actions">
         <button class="move-up" type="button" aria-label="上移">↑</button>
@@ -123,6 +129,8 @@
       </div>
     </div>
   </template>
-  <script src="app.js?v=6" defer></script>
+  <script src="vendor/xlsx.full.min.js" defer></script>
+  <script src="vendor/opencc.js" defer></script>
+  <script src="app.js?v=7" defer></script>
 </body>
 </html>
