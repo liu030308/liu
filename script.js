@@ -481,7 +481,8 @@ document.addEventListener('DOMContentLoaded', () => {
             'page_title': '劉峻瑋 | Jun Wei Liu',
             'tools_toggle_title': '工具 / Tools',
             'tools_toggle_aria': '我的工具',
-            'tool_pcb_date': 'PCB日期標籤編輯器'
+            'tool_pcb_date': 'PCB日期標籤編輯器',
+            'tool_shipping': '團購運費計算機'
         },
         'en': {
             // Nav
@@ -798,6 +799,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'tools_toggle_title': 'Tools',
             'tools_toggle_aria': 'My Tools',
             'tool_pcb_date': 'PCB Date Label Editor',
+            'tool_shipping': 'Group Shipping Calculator',
         },
         'ja': {
             // Nav
@@ -1113,7 +1115,8 @@ document.addEventListener('DOMContentLoaded', () => {
             'page_title': '劉峻瑋 | Jun Wei Liu',
             'tools_toggle_title': 'ツール / Tools',
             'tools_toggle_aria': 'ツール',
-            'tool_pcb_date': 'PCB日付ラベルエディタ'
+            'tool_pcb_date': 'PCB日付ラベルエディタ',
+            'tool_shipping': 'グループ配送料計算機'
         }
     };
 

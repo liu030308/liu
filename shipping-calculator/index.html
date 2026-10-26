@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <title>團購運費計算機</title>
+  <meta name="description" content="依重量比例公平分攤團購運費，支援重量加總、常用成員、複製與 CSV 匯出。">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#calculator">跳到計算區</a>
+  <header class="topbar">
+    <a class="back-link" href="../" aria-label="回到劉峻瑋個人網站">← <span>回到個人網站</span></a>
+    <button id="theme-toggle" class="icon-button" type="button" aria-label="切換深淺色模式" title="切換深淺色模式">☾</button>
+  </header>
+
+  <main id="calculator" class="app-shell">
+    <section class="hero" aria-labelledby="page-title">
+      <p class="eyebrow">GROUP SHIPPING SPLITTER</p>
+      <h1 id="page-title">團購運費計算機</h1>
+      <p>輸入運費與每位成員的包裹重量，系統會依比例分攤，並保證應收總額精準一致。</p>
+    </section>
+
+    <section class="summary-grid" aria-label="計算摘要">
+      <article><span>總運費</span><strong id="summary-shipping">NT$ 0</strong></article>
+      <article><span>總重量</span><strong id="summary-weight">0.00 kg</strong></article>
+      <article><span>成員數</span><strong id="summary-members">0 人</strong></article>
+    </section>
+
+    <div class="workspace">
+      <section class="panel input-panel" aria-labelledby="input-title">
+        <div class="panel-heading">
+          <div><p class="step">01</p><h2 id="input-title">設定與成員</h2></div>
+          <button id="clear-all" class="text-button danger" type="button">清空全部</button>
+        </div>
+
+        <label class="field shipping-field" for="shipping">
+          <span>總運費 <small>NTD</small></span>
+          <span class="money-input"><b>NT$</b><input id="shipping" inputmode="numeric" type="number" min="1" step="1" placeholder="1200" autocomplete="off"></span>
+        </label>
+
+        <div class="presets-block">
+          <div class="subheading"><h3>常用成員</h3><span>點一下快速加入</span></div>
+          <div id="preset-list" class="preset-list" aria-label="常用成員"></div>
+          <form id="preset-form" class="inline-form">
+            <label class="sr-only" for="preset-name">新增常用成員姓名</label>
+            <input id="preset-name" maxlength="30" placeholder="新增常用成員">
+            <button type="submit">新增</button>
+          </form>
+        </div>
+
+        <div class="members-block">
+          <div class="subheading"><h3>本次成員</h3><span>重量可輸入 0.5 + 1.2</span></div>
+          <div id="member-list" class="member-list"></div>
+          <button id="add-member" class="add-button" type="button">+　新增一位成員</button>
+        </div>
+
+        <p id="form-error" class="error-message" role="alert" aria-live="polite"></p>
+        <button id="calculate" class="primary-button" type="button">計算分攤金額 <span>→</span></button>
+      </section>
+
+      <section class="panel result-panel" aria-labelledby="result-title">
+        <div class="panel-heading">
+          <div><p class="step">02</p><h2 id="result-title">分攤結果</h2></div>
+          <span id="result-status" class="status-pill">尚未計算</span>
+        </div>
+        <div id="empty-result" class="empty-state">
+          <div class="package-icon" aria-hidden="true">◇</div>
+          <h3>等待計算</h3>
+          <p>填寫總運費與成員重量後，點選「計算分攤金額」。</p>
+        </div>
+        <div id="result-content" class="result-content" hidden>
+          <div class="result-table-wrap">
+            <table>
+              <thead><tr><th>成員</th><th>重量</th><th>比例</th><th>應付</th></tr></thead>
+              <tbody id="result-rows"></tbody>
+              <tfoot><tr><th>合計</th><td id="result-weight"></td><td>100%</td><td id="result-total"></td></tr></tfoot>
+            </table>
+          </div>
+          <p class="rounding-note">金額以最大餘數法公平取整，加總必定等於總運費。</p>
+          <div class="result-actions">
+            <button id="copy-result" type="button">複製結果</button>
+            <button id="export-csv" type="button">匯出 CSV</button>
+          </div>
+          <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <template id="member-template">
+    <div class="member-row">
+      <span class="drag-handle" aria-hidden="true">⋮⋮</span>
+      <label><span class="sr-only">成員姓名</span><input class="member-name" maxlength="30" placeholder="姓名" autocomplete="off"></label>
+      <label><span class="sr-only">重量計算式</span><input class="member-weight" inputmode="decimal" placeholder="0.5 + 1.2" autocomplete="off"></label>
+      <output class="member-total">0.00 kg</output>
+      <div class="row-actions">
+        <button class="move-up" type="button" aria-label="上移">↑</button>
+        <button class="move-down" type="button" aria-label="下移">↓</button>
+        <button class="remove-member" type="button" aria-label="移除成員">×</button>
+      </div>
+    </div>
+  </template>
+  <script src="app.js" defer></script>
+</body>
+</html>
