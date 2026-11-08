@@ -69,9 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
             fallbackCopy(email);
         }
 
-        setTimeout(() => {
-            window.location.href = `mailto:${email}`;
-        }, 200);
+        // F15: Do not force window.location.href = mailto, keeping copy feedback clean
     };
 
     const fallbackCopy = (text) => {
@@ -166,18 +164,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 3. Language switcher & Translation tables
-    const translations = {
+    const translations = window.__portfolioI18n = {
         'zh-TW': {
             // Nav
             'nav_about': '關於我',
             'nav_skills': '專業技能',
             'nav_projects': '專案作品',
             'nav_friends': '技術夥伴',
+            'nav_memories': '生活足跡',
             'nav_contact': '聯絡我',
+            'memories_title': '生活紀實 & 旅程足跡',
+            'memories_tagline': '求學歲月與探索世界的珍貴時光',
+            'terminal_expand': '展開完整互動終端機 ▾',
+            'terminal_collapse': '收合終端機 ▴',
             // Hero
-            'hero_badge': 'Uptime: 100% | Available for collaboration',
-            'hero_title': '我是 <span class="gradient-text">劉峻瑋 (Jun Wei)</span><br>一個熱愛挑戰的極客',
-            'hero_subtitle': '專注於 <strong class="highlight">網路工程</strong> 與 <strong class="highlight">AIoT 邊緣運算</strong>，熱衷於底層虛擬化、網路基礎設施建置，以及軟硬體整合的數位製造實作者。',
+            'hero_badge': 'Status: Online | 開放技術交流與合作',
+            'hero_title': '我是 <span class="gradient-text">劉峻瑋 (Jun Wei)</span><br>熱愛挑戰的極客實作者',
+            'hero_subtitle': '專注於 <strong class="highlight">網路基礎設施</strong> 與 <strong class="highlight">AIoT 邊緣運算</strong>。<br>熱衷於底層虛擬化、軟路由架構，以及軟硬體整合的數位製造實作者。',
             'hero_btn_projects': '瀏覽作品',
             'hero_btn_contact': '與我聯絡',
             'hero_btn_cv': '下載履歷',
@@ -196,13 +199,13 @@ document.addEventListener('DOMContentLoaded', () => {
             'timeline_current': '目前',
             'timeline_past': '經歷',
             // Timeline details
-            'timeline_edu_ms': '雲林縣虎尾科技大學 電子工程系 碩士班',
+            'timeline_edu_ms': '國立虎尾科技大學 電子工程系 碩士班',
             'timeline_edu_ms_desc': '深造嵌入式系統與 AIoT 領域',
-            'timeline_edu_bs': '雲林縣虎尾科技大學 電子工程系',
+            'timeline_edu_bs': '國立虎尾科技大學 電子工程系',
             'timeline_edu_bs_desc': '主修電子工程，專注於邊緣運算、軟硬體整合、影像辨識及無人機控制系統開發。',
             'timeline_exp_gov': '雲林縣政府',
             'timeline_exp_gov_desc': '於雲林縣政府服務，累積實務管理運作經驗。',
-            'timeline_edu_5yr': '雲林縣虎尾科技大學 電子工程科',
+            'timeline_edu_5yr': '國立虎尾科技大學 電子工程科',
             'timeline_edu_5yr_desc': '電子工程科五專部學業，奠定扎實的電子電路與硬體分析基礎。',
             'timeline_edu_vs': '雲林縣西螺農工 電子科',
             'timeline_edu_vs_desc': '高職電子科啟蒙，學習微控制器開發與基礎電子理論。',
@@ -218,10 +221,10 @@ document.addEventListener('DOMContentLoaded', () => {
   help        - 顯示此指令選單
 `,
             'term_experience': `=== 個人經歷與求學背景 (Timeline) ===
-- [目前] 雲林縣虎尾科技大學 電子工程系 碩士班 (深造嵌入式系統與 AIoT 領域)
-- [經歷] 雲林縣虎尾科技大學 電子工程系 (主修電子工程，專注於邊緣運算、軟硬體整合與無人機控制)
+- [目前] 國立虎尾科技大學 電子工程系 碩士班 (深造嵌入式系統與 AIoT 領域)
+- [經歷] 國立虎尾科技大學 電子工程系 (主修電子工程，專注於邊緣運算、軟硬體整合與無人機控制)
 - [經歷] 雲林縣政府 (服務並累積實務經驗)
-- [經歷] 雲林縣虎尾科技大學 電子工程科
+- [經歷] 國立虎尾科技大學 電子工程科
 - [經歷] 雲林縣西螺農工 電子科
 `,
             'term_skills': `=== 專業技能清單 (Network & AIoT Labs) ===
@@ -276,6 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'terminal_info_quote': '"底層架構是我的畫布，硬體電路是我的畫筆，網路通訊是我的語言。"',
             'terminal_help_msg': '可用指令: <span class="cmd-highlight">skills</span>, <span class="cmd-highlight">projects</span>, <span class="cmd-highlight">clear</span>, <span class="cmd-highlight">contact</span>, <span class="cmd-highlight">gui</span>',
             'terminal_placeholder': '在此輸入指令...',
+            'terminal_input_aria': '終端機指令輸入',
             'term_cmd_not_found': 'bash: 指令未找到: {cmd}。輸入 <span class="cmd-highlight">help</span> 獲取指令清單。',
             'term_gui_msg': '正在引導至圖形化網頁介面...',
 
@@ -324,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'filter_game': '電玩與互動',
             'proj_acad_badge': '學術成果',
             'proj_acad_title': 'ICCT-Pacific 國際學術會議',
-            'proj_acad_highlight': '成果｜最佳學生海報獎',
+            'proj_acad_highlight': '成果｜IEEE 國際會議「最佳學生海報獎 (Best Student Poster Award)」',
             'proj_acad_desc': '於 ICCT-Pacific 國際學術研討會上發表學術論文，並憑藉扎實的系統架構與精美的海報設計展示，獲頒「最佳學生海報獎 (Best Student Poster Award)」。',
             'proj_acad_link': '查看學術成果相簿',
             'proj_drone_badge': '邊緣運算',
@@ -333,12 +337,12 @@ document.addEventListener('DOMContentLoaded', () => {
             'proj_drone_link': '專案文件',
             'proj_infra_badge': '基礎設施',
             'proj_infra_title': '個人極客 Homelab 機櫃佈置',
-            'proj_infra_highlight': '架構｜虛擬化、網路隔離與微服務',
+            'proj_infra_highlight': '架構｜PVE 虛擬化叢集、802.1Q VLAN 隔離與 Docker 微服務',
             'proj_infra_desc': '從零建構個人機櫃，採用 Proxmox VE 進行多虛擬機器管理。上層透過 OpenWrt 作為軟路由核心提供 VLAN 隔離、負載均衡與 Docker 微服務部署。',
             'proj_infra_link': '查看機櫃成果相簿',
             'proj_mfg_badge': '數位製造',
             'proj_mfg_title': 'Creality 3D 列印機改裝與維修',
-            'proj_mfg_highlight': '成果｜提升列印精度與高速穩定性',
+            'proj_mfg_highlight': '成果｜標準 3DBenchy 列印時間縮短約 45%，組裝件外徑公差維持 ±0.05mm 內',
             'proj_mfg_desc': '升級 Y 軸 MGN 雙線性導軌消除底板晃動，重寫 Klipper 控制韌體，並針對近端擠出機與噴頭進行深度拆解維修與自製 3D 列印結構件，顯著提升列印精度與高速穩定性。',
             'proj_mfg_link': '查看維修與改裝相片',
             'filter_ta': '營隊講師 & 助教',
@@ -348,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'tag_lab_instruction': '實驗室指導',
             'proj_ta_badge': '營隊講師 & 課程助教',
             'proj_ta_title': '科技營隊研習講師 & 課程助教',
-            'proj_ta_highlight': '角色｜研習講師與電子工程課程助教',
+            'proj_ta_highlight': '角色｜半導體探索營研習講師與電子工程系助教（滿意度 98% 依據課後回饋問卷）',
             'proj_ta_desc': '擔任雲林縣國中資優生暑期探索體驗營「半導體與光微影實作」研習講師，帶領學員於實驗室進行晶圓製程與光阻曝光顯影實作；並長期擔任大學電子系專業課程助教，指導微處理器、嵌入式系統與 AIoT 電子電路除錯。',
             'proj_ta_link': '瀏覽營隊與教學花絮相簿',
             'proj_grad_badge': '過往紀錄',
@@ -367,7 +371,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Friends Section
             'friends_title': '技術夥伴 & 友鏈',
             'friends_tagline': '共同探索技術、分享旅程的戰友',
-            'friend_name': '合作夥伴極摯友 鐘明穎 (Ming-Ying Chung)',
+            'friend_name': '合作夥伴暨摯友 鐘明穎 (Ming-Ying Chung)',
             'friend_bio': '專注於 IoT 開發、影像辨識與無線通訊。西螺農工電子科時期的同窗戰友，熱衷於用工程實作連結影像與真實世界。',
             'friend_btn': '訪問個人網站',
 
@@ -433,11 +437,11 @@ document.addEventListener('DOMContentLoaded', () => {
             'gallery_grad_2': '國立虎尾科技大學電子系 - 與實驗室的學長們拍學士服照 (2)',
             'gallery_grad_3': '國立虎尾科技大學電子系 - 畢業典禮與院長及實驗室學長合影',
             'gallery_grad_4': '雲林西螺農工電子科 - 畢業時與班導楊媽穿著學士服合影留念',
-            'gallery_grad_5': '雲林西螺農工電子科 - 畢業時與合作夥伴極摯友鐘明穎在西螺農工校園合影',
+            'gallery_grad_5': '雲林西螺農工電子科 - 畢業時與合作夥伴暨摯友鐘明穎在西螺農工校園合影',
             'gallery_friends_1': '日本岡山市 - 與朋友們一同造訪著名的「岡山城」合照',
             'gallery_friends_2': '日本山口大學 - 研討會發表期間與朋友們在校園景點合影留念',
-            'gallery_friends_3': '雲林西螺農工電子科 - 與合作夥伴極摯友鐘明穎在西螺農工校園合影',
-            'gallery_friends_4': '日本廣島廿日市 - 與合作夥伴極摯友鐘明穎在著名景點嚴島神社合影留念',
+            'gallery_friends_3': '雲林西螺農工電子科 - 與合作夥伴暨摯友鐘明穎在西螺農工校園合影',
+            'gallery_friends_4': '日本廣島廿日市 - 與合作夥伴暨摯友鐘明穎在著名景點嚴島神社合影留念',
             'gallery_ig_1': '掃描 QR Code 追蹤我的 Instagram',
             
             // Newly added elements
@@ -466,7 +470,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'perf_toggle_title': '切換省電模式',
             'lightbox_img_alt': '大圖',
             'profile_img_alt': '劉峻瑋 Jun Wei Liu',
-            'friend_img_alt': '合作夥伴極摯友 鐘明穎 Ming-Ying Chung',
+            'friend_img_alt': '合作夥伴暨摯友 鐘明穎 Ming-Ying Chung',
             'proj_acad_alt': 'ICCT-Pacific 最佳學生海報獎',
             'proj_drone_alt': 'ROS 2 無人機 AI 導航與飛行',
             'proj_infra_alt': '伺服器與 NAS 基礎設施配置',
@@ -482,7 +486,60 @@ document.addEventListener('DOMContentLoaded', () => {
             'tools_toggle_title': '工具 / Tools',
             'tools_toggle_aria': '我的工具',
             'tool_pcb_date': 'PCB日期標籤編輯器',
-            'tool_shipping': '團購運費計算機'
+            'tool_shipping': '團購運費計算機',
+
+        
+            'label_challenge': '背景挑戰',
+        
+            'label_action': '核心實作',
+        
+            'label_result': '實證成果',
+        
+            'proj_acad_c_desc': '在邊緣節點運算資源有限與弱網通訊環境下，驗證邊緣 AIoT 系統之即時遙測傳輸與推論排程架構。',
+        
+            'proj_acad_a_desc': '獨立規劃邊緣微服務通訊架構，優化模型推論排程，並在國際學術研討會進行全英語論文口頭報告與海報現場展示。',
+        
+            'proj_acad_r_desc': '論文獲審查通過發表於 IEEE ICCT-Pacific 研討會；憑藉嚴謹系統架構設計與視覺化實測展示，榮獲會議評選最佳學生海報獎。',
+        
+            'proj_infra_c_desc': '在家庭低功耗環境下，整合實驗開發、NAS 私有雲儲存與日常網路，需達成高可用性與實體網路安全隔離。',
+        
+            'proj_infra_a_desc': '以 Proxmox VE 部署 VM 與 LXC 容器；以 OpenWrt 軟路由為骨幹劃分 4 組 VLAN（管理/伺服器/IoT/訪客），配置 WireGuard 加密通道。',
+        
+            'proj_infra_r_desc': '達成 7x24 穩定運行 10+ 項 Docker 微服務，建置外網安全穿透通道與定時冷熱備份機制。',
+        
+            'proj_mfg_c_desc': '原廠 V 輪熱床在高加速度下易晃動產生層紋；遠端擠出喉管散熱不佳易導致噴頭堵塞與拉絲。',
+        
+            'proj_mfg_a_desc': 'Y 軸升級 MGN12H 工業級線性導軌，改裝近端雙齒輪擠出機；Fusion 360 自製冷卻風罩；移植 Klipper 韌體並以 ADXL345 加速度計校正 Input Shaper 共振頻率補償。',
+        
+            'proj_mfg_r_desc': '比較原廠出廠配置（Marlin 預設 500 mm/s² 加速度），改裝後安全運作加速度達 3,000 mm/s²，標準 3DBenchy 列印時間縮短約 45%（實測 1h45m 降至 58m），緊公差功能件組裝一次到位。',
+        
+            'proj_ta_c_desc': '向國中資優學員科普高門檻之半導體晶圓製程，並長期協助大學部學生排查微處理器與電路實驗整合故障。',
+        
+            'proj_ta_a_desc': '設計「半導體與光微影實作」模組化教案，帶領學員穿戴防塵衣於無塵室進行塗膠、紫外光微影曝光與顯影；課堂指導嵌入式微處理器與示波器除錯。',
+        
+            'proj_ta_r_desc': '引導 30+ 位學員完成微米級晶圓圖案製作，依據課後回收之全體學員匿名問卷統計，課程實作滿意度達 98%；長期協助數十位大學生突破軟硬體整合瓶頸。',
+        
+            'skill_ev_pve': '<i data-lucide="arrow-up-right"></i> 佐證專案：Homelab 機櫃虛擬化叢集 ↗',
+        
+            'skill_ev_docker': '<i data-lucide="arrow-up-right"></i> 佐證專案：微服務容器化與自動化部署 ↗',
+        
+            'skill_ev_openwrt': '<i data-lucide="arrow-up-right"></i> 佐證專案：軟路由 VLAN 隔離與加密通道 ↗',
+        
+            'skill_ev_net': '<i data-lucide="arrow-up-right"></i> 佐證專案：多子網規劃與防火牆策略 ↗',
+        
+            'skill_ev_ros': '<i data-lucide="arrow-up-right"></i> 佐證專案：無人機邊緣運算與自主導航 ↗',
+        
+            'skill_ev_embed': '<i data-lucide="arrow-up-right"></i> 佐證專案：微處理器實作與助教實驗指導 ↗',
+        
+            'skill_ev_ai': '<i data-lucide="arrow-up-right"></i> 佐證專案：輕量化模型量化與即時辨識 ↗',
+        
+            'skill_ev_linux': '<i data-lucide="arrow-up-right"></i> 佐證專案：Homelab 運維與自動化腳本管理 ↗',
+        
+            'skill_ev_3d': '<i data-lucide="arrow-up-right"></i> 佐證專案：Creality MGN 雙線軌與韌體調校 ↗',
+        
+            'skill_ev_cad': '<i data-lucide="arrow-up-right"></i> 佐證專案：機構設計與耐公差功能件研發 ↗',
+        
+            'skill_ev_hw': '<i data-lucide="arrow-up-right"></i> 佐證專案：熱端散熱電路與貼片元件維修 ↗',
         },
         'en': {
             // Nav
@@ -490,11 +547,16 @@ document.addEventListener('DOMContentLoaded', () => {
             'nav_skills': 'Skills',
             'nav_projects': 'Projects',
             'nav_friends': 'Partners',
+            'nav_memories': 'Memories',
             'nav_contact': 'Contact Me',
+            'memories_title': 'Life & Footprints',
+            'memories_tagline': 'Precious moments in academic journey & travel',
+            'terminal_expand': 'Expand Interactive Console ▾',
+            'terminal_collapse': 'Collapse Console ▴',
             // Hero
-            'hero_badge': 'Uptime: 100% | Available for collaboration',
-            'hero_title': 'I am <span class="gradient-text">Jun Wei Liu</span><br>A geek who loves challenges',
-            'hero_subtitle': 'Focusing on <strong class="highlight">Network Engineering</strong> and <strong class="highlight">AIoT Edge Computing</strong>. Passionate about virtualization, infrastructure deployments, and software/hardware integration.',
+            'hero_badge': 'Status: Online | Available for Collaboration',
+            'hero_title': 'I am <span class="gradient-text">Jun Wei Liu</span><br>A Challenge-Driven Geek',
+            'hero_subtitle': 'Specializing in <strong class="highlight">Network Infrastructure</strong> and <strong class="highlight">AIoT Edge Computing</strong>.<br>Passionate about Proxmox virtualization, soft-routing architectures, and digital fabrication.',
             'hero_btn_projects': 'View Projects',
             'hero_btn_contact': 'Contact Me',
             'hero_btn_cv': 'Download CV',
@@ -641,7 +703,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'filter_game': 'Games & Interactive',
             'proj_acad_badge': 'Academic',
             'proj_acad_title': 'ICCT-Pacific International Conference',
-            'proj_acad_highlight': 'Outcome | Best Student Poster Award',
+            'proj_acad_highlight': 'Outcome | IEEE Conference Best Student Poster Award',
             'proj_acad_desc': 'Presented a paper at the ICCT-Pacific international conference and won the "Best Student Poster Award" for robust system design and presentation.',
             'proj_acad_link': 'View Academic Gallery',
             'proj_drone_badge': 'Edge Computing',
@@ -650,12 +712,12 @@ document.addEventListener('DOMContentLoaded', () => {
             'proj_drone_link': 'Project Docs',
             'proj_infra_badge': 'Infrastructure',
             'proj_infra_title': 'Personal Geek Homelab Server Rack',
-            'proj_infra_highlight': 'Architecture | Virtualization, network isolation, microservices',
+            'proj_infra_highlight': 'Architecture | PVE Cluster, 802.1Q VLAN Isolation & Docker Microservices',
             'proj_infra_desc': 'Built a custom home server rack from scratch. Uses Proxmox VE for virtualization, with OpenWrt routing handling VLAN isolation, load balancing, and Docker services.',
             'proj_infra_link': 'View Homelab Gallery',
             'proj_mfg_badge': 'Digital Mfg',
             'proj_mfg_title': 'Creality 3D Printer Modding & Repair',
-            'proj_mfg_highlight': 'Outcome | Improved print accuracy and high-speed stability',
+            'proj_mfg_highlight': 'Outcome | 3DBenchy print time reduced by ~45%, assembly tolerance within ±0.05mm',
             'proj_mfg_desc': 'Upgraded with Y-axis dual MGN linear rails to eliminate bed wobble, tuned custom Klipper firmware, and performed deep direct-drive extruder and hotend maintenance with custom 3D printed parts.',
             'proj_mfg_link': 'View Mod & Repair Photos',
             'filter_ta': 'Camp Lecturer & TA',
@@ -665,7 +727,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'tag_lab_instruction': 'Lab Instruction',
             'proj_ta_badge': 'Camp Lecturer & Course TA',
             'proj_ta_title': 'Youth Science Camp Lecturer & Course TA',
-            'proj_ta_highlight': 'Role | Workshop lecturer and Electronic Engineering TA',
+            'proj_ta_highlight': 'Role | Semiconductor Camp Lecturer & Teaching Assistant (98% Satisfaction via Survey)',
             'proj_ta_desc': 'Served as a Semiconductor & Photolithography Workshop Lecturer for the Yunlin Gifted Middle Schoolers Summer Science Camp, guiding students in wafer fabrication and UV photolithography; also served as an Electronic Engineering TA guiding microprocessors, embedded systems, and AIoT lab development.',
             'proj_ta_link': 'View Camp & Teaching Album',
             'proj_grad_badge': 'Education Memories',
@@ -800,6 +862,58 @@ document.addEventListener('DOMContentLoaded', () => {
             'tools_toggle_aria': 'My Tools',
             'tool_pcb_date': 'PCB Date Label Editor',
             'tool_shipping': 'Group Shipping Calculator',
+        
+            'label_challenge': 'Challenge',
+        
+            'label_action': 'Approach',
+        
+            'label_result': 'Outcome',
+        
+            'proj_acad_c_desc': 'Validating real-time telemetry and edge inference scheduling under constrained compute resources and unstable connectivity.',
+        
+            'proj_acad_a_desc': 'Designed a distributed edge microservice architecture, optimized inference schedules, and delivered oral presentation and poster demonstration in English.',
+        
+            'proj_acad_r_desc': 'Paper accepted and presented at IEEE ICCT-Pacific; awarded the Best Student Poster Award for robust architecture and rigorous presentation.',
+        
+            'proj_infra_c_desc': 'Consolidating dev lab, NAS private storage, and daily networking in a low-power home setting while ensuring high availability and subnet isolation.',
+        
+            'proj_infra_a_desc': 'Deployed VMs and LXC containers via Proxmox VE; partitioned 4 VLANs (Mgmt/Server/IoT/Guest) with OpenWrt routing and WireGuard VPN.',
+        
+            'proj_infra_r_desc': 'Achieved 7x24 stable operation across 10+ Docker microservices, with secure external tunneling and automated multi-tier backup routines.',
+        
+            'proj_mfg_c_desc': 'Stock V-roller bed produced layer banding under high acceleration; bowden tube heat creep frequently caused nozzle clogging.',
+        
+            'proj_mfg_a_desc': 'Upgraded Y-axis to MGN12H linear rails, converted to direct-drive extruder, 3D modeled custom ducts, and calibrated Klipper Input Shaper with ADXL345 accelerometer.',
+        
+            'proj_mfg_r_desc': 'Compared to stock config (Marlin 500 mm/s²), safe acceleration reached 3,000 mm/s², reducing 3DBenchy print time by ~45% (1h45m to 58m) while holding tight functional assembly tolerances.',
+        
+            'proj_ta_c_desc': 'Introducing advanced semiconductor wafer fabrication to gifted middle school students, and assisting college students in microprocessor and circuit debugging.',
+        
+            'proj_ta_a_desc': 'Designed modular photolithography curriculum, mentored cleanroom wafer coating, UV exposure, and etching, and guided college labs in embedded systems and oscilloscope analysis.',
+        
+            'proj_ta_r_desc': 'Guided 30+ students in completing micro-patterned wafers, with 98% positive ratings across post-camp anonymous surveys; supported dozens of undergraduates in debugging.',
+        
+            'skill_ev_pve': '<i data-lucide="arrow-up-right"></i> Project: Homelab Virtualization Cluster ↗',
+        
+            'skill_ev_docker': '<i data-lucide="arrow-up-right"></i> Project: Microservices Container Deployment ↗',
+        
+            'skill_ev_openwrt': '<i data-lucide="arrow-up-right"></i> Project: Soft-Routing VLAN & Secure Tunnel ↗',
+        
+            'skill_ev_net': '<i data-lucide="arrow-up-right"></i> Project: Multi-Subnet & Firewall Topology ↗',
+        
+            'skill_ev_ros': '<i data-lucide="arrow-up-right"></i> Project: Drone Edge Computing & Autonomous Control ↗',
+        
+            'skill_ev_embed': '<i data-lucide="arrow-up-right"></i> Project: Microcontroller & Teaching Lab ↗',
+        
+            'skill_ev_ai': '<i data-lucide="arrow-up-right"></i> Project: Lightweight Model Quantization ↗',
+        
+            'skill_ev_linux': '<i data-lucide="arrow-up-right"></i> Project: Server Operations & Automation ↗',
+        
+            'skill_ev_3d': '<i data-lucide="arrow-up-right"></i> Project: Creality Linear Rails & Firmware Tuning ↗',
+        
+            'skill_ev_cad': '<i data-lucide="arrow-up-right"></i> Project: CAD Mechanism & Tight-Tolerance Parts ↗',
+        
+            'skill_ev_hw': '<i data-lucide="arrow-up-right"></i> Project: Hotend Circuit & SMD Repair ↗',
         },
         'ja': {
             // Nav
@@ -807,11 +921,16 @@ document.addEventListener('DOMContentLoaded', () => {
             'nav_skills': 'スキル',
             'nav_projects': '実績',
             'nav_friends': 'パートナー',
+            'nav_memories': '旅と記録',
             'nav_contact': '連絡先',
+            'memories_title': '思い出と足跡',
+            'memories_tagline': '学生時代の学びと世界を巡る大切な記録',
+            'terminal_expand': 'ターミナルを展開 ▾',
+            'terminal_collapse': 'ターミナルを折りたたむ ▴',
             // Hero
-            'hero_badge': '稼働率: 100% | コラボレーション募集中',
-            'hero_title': '私は <span class="gradient-text">劉峻瑋 (Jun Wei)</span><br>挑戦を愛するギークです',
-            'hero_subtitle': '<strong class="highlight">ネットワークエンジニアリング</strong> と <strong class="highlight">AIoTエッジコンピューティング</strong>に注力。仮想環境構築、インフラデプロイ、ソフト・ハード統合開発を得意としています。',
+            'hero_badge': 'ステータス: オンライン | コラボレーション募集中',
+            'hero_title': '私は <span class="gradient-text">劉峻瑋 (Jun Wei)</span><br>挑戦を愛するギーク開発者',
+            'hero_subtitle': '<strong class="highlight">ネットワーク基盤</strong> と <strong class="highlight">AIoTエッジコンピューティング</strong> に特化。<br>Proxmoxによる仮想化、ソフトルータ環境構築、ソフト・ハード統合のデジタルものづくりを実践。',
             'hero_btn_projects': 'プロジェクトを見る',
             'hero_btn_contact': 'お問い合わせ',
             'hero_btn_cv': '履歴書をダウンロード',
@@ -958,7 +1077,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'filter_game': 'ゲーム・インタラクション',
             'proj_acad_badge': '学術成果',
             'proj_acad_title': 'ICCT-Pacific 国際会議',
-            'proj_acad_highlight': '成果｜最優秀学生ポスター賞',
+            'proj_acad_highlight': '成果｜IEEE国際会議「最優秀学生ポスター賞」受賞',
             'proj_acad_desc': 'ICCT-Pacific国際学術会議にて論文を発表し、強固なシステム設計と精緻なポスター展示により「最優秀学生ポスター賞 (Best Student Poster Award)」を受賞。',
             'proj_acad_link': '学術成果ギャラリーを見る',
             'proj_drone_badge': 'エッジ計算',
@@ -967,12 +1086,12 @@ document.addEventListener('DOMContentLoaded', () => {
             'proj_drone_link': 'プロジェクト文書',
             'proj_infra_badge': 'インフラ',
             'proj_infra_title': '個人 Homelab サーバラック構築',
-            'proj_infra_highlight': '構成｜仮想化・ネットワーク分離・マイクロサービス',
+            'proj_infra_highlight': '構成｜PVE仮想化クラスタ・802.1Q VLAN分離・Docker運用',
             'proj_infra_desc': 'サーバラックをゼロから自作。Proxmox VEによる仮想化とOpenWrtソフトルータによるVLAN隔離、負荷分散、Dockerマイクロサービスのデプロイを管理。',
             'proj_infra_link': 'ホームラボギャラリーを見る',
             'proj_mfg_badge': 'デジタル製造',
             'proj_mfg_title': 'Creality 3D プリンター改造と修理',
-            'proj_mfg_highlight': '成果｜印刷精度と高速安定性を向上',
+            'proj_mfg_highlight': '成果｜標準3DBenchy造形時間を約45%短縮、主要外径公差±0.05mm以内を維持',
             'proj_mfg_desc': 'Y軸にMGNデュアルリニアガイドを増設してブレを解消し、ダイレクトエクストルーダーの分解修理を実施。独自プリント部品の設計とKlipper調整により印刷精度と安定性を大幅に向上。',
             'proj_mfg_link': '改造と修理の写真を見る',
             'filter_ta': 'キャンプ講師・TA',
@@ -982,7 +1101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'tag_lab_instruction': '実験室指導',
             'proj_ta_badge': 'キャンプ講師・講義TA',
             'proj_ta_title': '科学キャンプ講師・電子工学教育TA',
-            'proj_ta_highlight': '役割｜研修講師・電子工学科TA',
+            'proj_ta_highlight': '役割｜半導体サイエンスキャンプ講師＆電子工学教育TA（事後アンケート満足度98%）',
             'proj_ta_desc': '雲林県中学生ギフテッドサマーサイエンスキャンプにて「半導体とフォトリソグラフィ実習」の講師を担当し、研究室でウェハー製造やUV露光現像を指導。また電子工学科のTAとしてマイクロプロセッサや組込みAIoT回路設計をサポート。',
             'proj_ta_link': 'キャンプ＆教育アルバムを見る',
             'proj_grad_badge': '学生時代',
@@ -1116,7 +1235,37 @@ document.addEventListener('DOMContentLoaded', () => {
             'tools_toggle_title': 'ツール / Tools',
             'tools_toggle_aria': 'ツール',
             'tool_pcb_date': 'PCB日付ラベルエディタ',
-            'tool_shipping': 'グループ配送料計算機'
+            'tool_shipping': 'グループ配送料計算機',
+            'label_challenge': '背景と課題',
+            'label_action': '核心アプローチ',
+            'label_result': '実証成果',
+            'proj_acad_highlight': '成果｜IEEE国際会議「最優秀学生ポスター賞」受賞',
+            'proj_acad_c_desc': '計算リソースが制限されたエッジ環境における、リアルタイムテレメトリ通信と推論スケジューリングの検証。',
+            'proj_acad_a_desc': 'エッジマイクロサービス通信基盤を設計し、推論処理を最適化。国際学会にて英語での口頭発表およびポスター発表を実施。',
+            'proj_acad_r_desc': '論文が採択されIEEE ICCT-Pacificにて発表。優れたシステムアーキテクチャと実証展示が高く評価され、最優秀学生ポスター賞を受賞。',
+            'proj_infra_highlight': '構成｜PVE仮想化クラスタ・802.1Q VLAN分離・Docker運用',
+            'proj_infra_c_desc': '家庭環境の省電力条件下で、開発検証・NASストレージ・日常通信を統合し、高可用性と安全なネットワーク分離を両立。',
+            'proj_infra_a_desc': 'Proxmox VEでVMとLXCコンテナを運用。OpenWrtソフトルータを中核に4つのVLAN（管理/サーバ/IoT/ゲスト）を構築しWireGuardを構成。',
+            'proj_infra_r_desc': '10以上のDockerマイクロサービスを7x24安定稼働させ、安全な外部アクセスと自動バックアップ体制を確立。',
+            'proj_mfg_highlight': '成果｜標準3DBenchy造形時間を約45%短縮、主要外径公差±0.05mm以内を維持',
+            'proj_mfg_c_desc': '標準Vホイールは高加速度下で振動による積層ムラが発生しやすく、ボーデン式エクストルーダーの熱ダレによるノズル詰まりが多発。',
+            'proj_mfg_a_desc': 'Y軸をMGN12Hリニアガイドに換装しダイレクト式に変更。自作冷却ファンノズルを設計し、ADXL345加速度センサでKlipper Input Shaper共振補正を校正。',
+            'proj_mfg_r_desc': '工場出荷時構成（Marlin初期加速度500 mm/s²）と比較し、3,000 mm/s²まで安全稼働可能に。標準3DBenchyの造形時間を約45%短縮（実測1時間45分→58分）し、高精度部品の一発嵌合を実現。',
+            'proj_ta_highlight': '役割｜半導体サイエンスキャンプ講師＆電子工学教育TA（事後アンケート満足度98%）',
+            'proj_ta_c_desc': '中学生ギフテッド生徒向けに高度な半導体ウェハー製造工程を分かりやすく解説し、大学ではマイコンと回路実験のデバッグを長期支援。',
+            'proj_ta_a_desc': '「半導体とフォトリソグラフィ実習」の教材を開発。無塵室で防塵服を着用したUV露光現像工程を指導し、講義では組込みマイコンとオシロスコープ解析を伴走。',
+            'proj_ta_r_desc': '30名以上の生徒がマイクロパターンのウェハー製作を完了し、受講後アンケート調査で満足度98%を記録。多くの学部生のハード・ソフト統合課題を解決。',
+            'skill_ev_pve': '<i data-lucide="arrow-up-right"></i> 実績：Homelab 仮想化クラスタ ↗',
+            'skill_ev_docker': '<i data-lucide="arrow-up-right"></i> 実績：マイクロサービス自動デプロイ ↗',
+            'skill_ev_openwrt': '<i data-lucide="arrow-up-right"></i> 実績：VLAN分離と暗号化トンネル ↗',
+            'skill_ev_net': '<i data-lucide="arrow-up-right"></i> 実績：マルチサブネット＆ファイアウォール ↗',
+            'skill_ev_ros': '<i data-lucide="arrow-up-right"></i> 実績：ドローンエッジ自律制御 ↗',
+            'skill_ev_embed': '<i data-lucide="arrow-up-right"></i> 実績：マイコン開発と教育実験指導 ↗',
+            'skill_ev_ai': '<i data-lucide="arrow-up-right"></i> 実績：軽量モデル量子化とリアルタイム推論 ↗',
+            'skill_ev_linux': '<i data-lucide="arrow-up-right"></i> 実績：サーバ運用と自動化スクリプト ↗',
+            'skill_ev_3d': '<i data-lucide="arrow-up-right"></i> 実績：3Dプリンタ デュアルリニアガイド改造 ↗',
+            'skill_ev_cad': '<i data-lucide="arrow-up-right"></i> 実績：機構設計と公差適合部品 ↗',
+            'skill_ev_hw': '<i data-lucide="arrow-up-right"></i> 実績：基板回路修理とSMDはんだ付け ↗'
         }
     };
 
@@ -1203,6 +1352,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // Re-render Lucide icons for newly injected elements
         if (window.lucide) {
             window.lucide.createIcons();
+        }
+
+        // Synchronize terminal expand/collapse button state with active language (F03)
+        if (window.__updateTerminalToggleBtnState) {
+            window.__updateTerminalToggleBtnState();
         }
 
         // Store preference
@@ -1477,32 +1631,61 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => animateTabBars(activePane), 200);
     }
 
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            // Remove active class from all buttons and panes
-            tabBtns.forEach(b => {
-                b.classList.remove('active');
-                b.setAttribute('aria-selected', 'false');
-            });
-            tabPanes.forEach(p => {
-                p.classList.remove('active');
-                p.hidden = true;
-            });
-            
-            // Add active to clicked button and target pane
-            btn.classList.add('active');
-            btn.setAttribute('aria-selected', 'true');
-            const tabId = btn.getAttribute('data-tab');
-            const targetPane = document.getElementById(`tab-${tabId}`);
+    // W3C Tabs Pattern with Arrow Key Navigation (F08)
+    const tabBtnsList = Array.from(tabBtns);
+
+    const activateTab = (btn, shouldFocus = false) => {
+        tabBtnsList.forEach(b => {
+            b.classList.remove('active');
+            b.setAttribute('aria-selected', 'false');
+            b.setAttribute('tabindex', '-1');
+        });
+        tabPanes.forEach(p => {
+            p.classList.remove('active');
+            p.hidden = true;
+        });
+
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+        btn.setAttribute('tabindex', '0');
+        if (shouldFocus) btn.focus();
+
+        const tabId = btn.getAttribute('data-tab');
+        const targetPane = document.getElementById(`tab-${tabId}`);
+        if (targetPane) {
             targetPane.classList.add('active');
             targetPane.hidden = false;
-            
-            // Trigger animation on progress bars
             animateTabBars(targetPane);
+        }
+    };
+
+    tabBtnsList.forEach((btn, index) => {
+        btn.addEventListener('click', () => activateTab(btn, false));
+
+        // Arrow key navigation between tabs (W3C Tabs Pattern)
+        btn.addEventListener('keydown', (e) => {
+            let targetIdx = -1;
+            if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                targetIdx = (index + 1) % tabBtnsList.length;
+            } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                targetIdx = (index - 1 + tabBtnsList.length) % tabBtnsList.length;
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                targetIdx = 0;
+            } else if (e.key === 'End') {
+                e.preventDefault();
+                targetIdx = tabBtnsList.length - 1;
+            }
+
+            if (targetIdx !== -1 && tabBtnsList[targetIdx]) {
+                activateTab(tabBtnsList[targetIdx], true);
+            }
         });
     });
 
-    // 8. Portfolio Category Filter
+    // 8. Portfolio Category Filter (Protected against race conditions & rapid clicking)
     const filterBtns = document.querySelectorAll('.filter-btn');
     const projectCards = document.querySelectorAll('.project-card');
 
@@ -1519,24 +1702,69 @@ document.addEventListener('DOMContentLoaded', () => {
             const filterValue = btn.getAttribute('data-filter');
             
             projectCards.forEach(card => {
+                // Clear any pending timeout from previous clicks to avoid stale hide operations
+                if (card._filterTimeout) {
+                    clearTimeout(card._filterTimeout);
+                    card._filterTimeout = null;
+                }
+
                 const category = card.getAttribute('data-category');
-                
-                if (filterValue === 'all' || category === filterValue) {
+                const isMatch = (filterValue === 'all' || category === filterValue);
+
+                if (isMatch) {
                     card.style.display = 'flex';
-                    // Mini timeout to trigger CSS transitions smoothly
-                    setTimeout(() => {
+                    // Micro-delay ensures browser has registered display:flex before transition
+                    card._filterTimeout = setTimeout(() => {
                         card.style.opacity = '1';
                         card.style.transform = 'scale(1)';
-                    }, 50);
+                        card._filterTimeout = null;
+                    }, 20);
                 } else {
                     card.style.opacity = '0';
                     card.style.transform = 'scale(0.95)';
                     // Match the CSS transition duration
-                    setTimeout(() => {
+                    card._filterTimeout = setTimeout(() => {
                         card.style.display = 'none';
+                        card._filterTimeout = null;
                     }, 300);
                 }
             });
+        });
+    });
+
+    // Skill evidence link smooth scrolling & auto-unhide filter
+    const skillEvidenceLinks = document.querySelectorAll('.skill-evidence');
+    skillEvidenceLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            const targetId = link.getAttribute('href');
+            if (!targetId || !targetId.startsWith('#proj-')) return;
+
+            const targetCard = document.querySelector(targetId);
+            if (!targetCard) return;
+
+            e.preventDefault();
+
+            // 1. Determine the target card's category
+            const targetCat = targetCard.getAttribute('data-category');
+
+            // 2. Check if currently filtered out
+            const activeFilter = document.querySelector('.filter-btn.active');
+            const currentFilterVal = activeFilter ? activeFilter.getAttribute('data-filter') : 'all';
+
+            if (currentFilterVal !== 'all' && currentFilterVal !== targetCat) {
+                // Switch filter to match category so the card is visible
+                const catBtn = document.querySelector(`.filter-btn[data-filter="${targetCat}"]`) || document.querySelector('.filter-btn[data-filter="all"]');
+                if (catBtn) catBtn.click();
+            }
+
+            // 3. Smooth scroll into center view and trigger highlight pulse
+            setTimeout(() => {
+                targetCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                targetCard.classList.add('card-pulse-highlight');
+                setTimeout(() => {
+                    targetCard.classList.remove('card-pulse-highlight');
+                }, 2000);
+            }, 60);
         });
     });
 
@@ -1584,13 +1812,13 @@ document.addEventListener('DOMContentLoaded', () => {
             { src: 'assets/graduation/graduation-senior-2.webp', caption: '國立虎尾科技大學電子系 - 與實驗室的學長們拍學士服照 (2)', caption_key: 'gallery_grad_2' },
             { src: 'assets/graduation/graduation-dean.webp', caption: '國立虎尾科技大學電子系 - 畢業典禮與院長及實驗室學長合影', caption_key: 'gallery_grad_3' },
             { src: 'assets/graduation/graduation-teacher.webp', caption: '雲林西螺農工電子科 - 畢業時與班導楊媽穿著學士服合影留念', caption_key: 'gallery_grad_4' },
-            { src: 'assets/travel/travel-friend-campus.webp', caption: '雲林西螺農工電子科 - 畢業時與合作夥伴極摯友鐘明穎在西螺農工校園合影', caption_key: 'gallery_grad_5' }
+            { src: 'assets/travel/travel-friend-campus.webp', caption: '雲林西螺農工電子科 - 畢業時與合作夥伴暨摯友鐘明穎在西螺農工校園合影', caption_key: 'gallery_grad_5' }
         ],
         friends: [
             { src: 'assets/travel/travel-okayama-castle.webp', caption: '日本岡山市 - 與朋友們一同造訪著名的「岡山城」合照', caption_key: 'gallery_friends_1' },
             { src: 'assets/travel/travel-yamaguchi-univ.webp', caption: '日本山口大學 - 研討會發表期間與朋友們在校園景點合影留念', caption_key: 'gallery_friends_2' },
-            { src: 'assets/travel/travel-friend-campus.webp', caption: '雲林西螺農工電子科 - 與合作夥伴極摯友鐘明穎在西螺農工校園合影', caption_key: 'gallery_friends_3' },
-            { src: 'assets/travel/travel-itsukushima-shrine.webp', caption: '日本廣島廿日市 - 與合作夥伴極摯友鐘明穎在著名景點嚴島神社合影留念', caption_key: 'gallery_friends_4' }
+            { src: 'assets/travel/travel-friend-campus.webp', caption: '雲林西螺農工電子科 - 與合作夥伴暨摯友鐘明穎在西螺農工校園合影', caption_key: 'gallery_friends_3' },
+            { src: 'assets/travel/travel-itsukushima-shrine.webp', caption: '日本廣島廿日市 - 與合作夥伴暨摯友鐘明穎在著名景點嚴島神社合影留念', caption_key: 'gallery_friends_4' }
         ],
         ig: [
             { src: 'assets/icon/ig-qr.webp', caption: '掃描 QR Code 追蹤我的 Instagram', caption_key: 'gallery_ig_1' }
@@ -1661,9 +1889,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 300);
     };
 
-    const projectCardElements = document.querySelectorAll('.project-card');
+    const projectCardElements = document.querySelectorAll('.project-card, .memory-card');
     projectCardElements.forEach(card => {
-        const img = card.querySelector('.project-img');
+        const img = card.querySelector('.project-img, .memory-img');
         const linkBtn = card.querySelector('.btn-project-link');
         const galleryKey = card.getAttribute('data-gallery');
         const hasGallery = galleryKey && galleries[galleryKey] && galleries[galleryKey].length > 0;
@@ -2163,12 +2391,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (!termInput || !termHistory) return;
 
+        // Ensure initial terminal scroll is pinned to top (prevents cutting off neofetch header)
+        if (termBody) {
+            termBody.scrollTop = 0;
+        }
+
         let commandHistory = [];
         let historyIndex = -1;
 
-        // Auto-focus terminal input on clicking anywhere in terminal
+        // Unified Terminal mobile expand/collapse state updater (F03, F04)
+        const updateTerminalToggleBtnState = () => {
+            const termToggleBtn = document.getElementById('terminal-toggle-btn');
+            if (!termToggleBtn || !termWrapper) return;
+
+            const isExpanded = termWrapper.classList.contains('is-expanded');
+            termToggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+            
+            const currentLang = (activeLanguage === 'auto') ? getSystemLanguage() : activeLanguage;
+            const dict = (window.__portfolioI18n && window.__portfolioI18n[currentLang]) || translations[currentLang] || translations['zh-TW'] || {};
+
+            const expandText = termToggleBtn.querySelector('.term-toggle-text');
+            if (expandText) {
+                expandText.textContent = isExpanded 
+                    ? (dict.terminal_collapse || '收合終端機 ▴') 
+                    : (dict.terminal_expand || '展開完整互動終端機 ▾');
+            }
+
+            const icon = termToggleBtn.querySelector('i, svg');
+            if (icon) {
+                if (icon.tagName.toLowerCase() === 'svg') {
+                    icon.style.transition = 'transform 0.3s ease';
+                    icon.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+                } else {
+                    icon.setAttribute('data-lucide', isExpanded ? 'chevron-up' : 'chevron-down');
+                    if (window.lucide && window.lucide.createIcons) window.lucide.createIcons();
+                }
+            }
+        };
+
+        // Expose to outer scope for updateLanguage
+        window.__updateTerminalToggleBtnState = updateTerminalToggleBtnState;
+
+        const termToggleBtn = document.getElementById('terminal-toggle-btn');
+        if (termToggleBtn && termWrapper) {
+            termToggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                termWrapper.classList.toggle('is-expanded');
+                updateTerminalToggleBtnState();
+            });
+        }
+
+        // Focus terminal input ONLY when user explicitly clicks inside terminal (not during initial page load)
         if (termWrapper) {
-            termWrapper.addEventListener('click', () => {
+            termWrapper.addEventListener('click', (e) => {
+                if (e.target.closest('#terminal-toggle-btn')) return;
                 termInput.focus();
             });
         }
@@ -2255,7 +2531,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 case 'whoami':
                     appendHistoryLine(cmd, `
                         <div><strong>劉峻瑋 (Jun Wei Liu)</strong></div>
-                        <div style="color: var(--text-secondary); margin-top: 2px;">• 雲林縣虎尾科技大學 電子工程系 碩士班</div>
+                        <div style="color: var(--text-secondary); margin-top: 2px;">• 國立虎尾科技大學 電子工程系 碩士班</div>
                         <div style="color: var(--text-secondary);">• 專注領域：網路工程 (Network Engineering)、AIoT 邊緣運算、虛擬化、3D 列印數位製造</div>
                         <div style="color: var(--accent-cyan); margin-top: 4px;">Status: Available for collaboration.</div>
                     `);

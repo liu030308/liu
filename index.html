@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-TW" data-theme="dark">
+<html lang="zh-TW" data-theme="dark" class="no-js">
 
 <head>
+    <script>document.documentElement.classList.replace('no-js', 'js');</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b0f19" id="theme-color-meta">
@@ -84,8 +85,8 @@
                 <ul>
                     <li><a href="#about" class="nav-link active" id="nav-link-about" data-i18n="nav_about">關於我</a></li>
                     <li><a href="#skills" class="nav-link" id="nav-link-skills" data-i18n="nav_skills">專業技能</a></li>
-                    <li><a href="#projects" class="nav-link" id="nav-link-projects" data-i18n="nav_projects">專案作品</a>
-                    </li>
+                    <li><a href="#projects" class="nav-link" id="nav-link-projects" data-i18n="nav_projects">專案作品</a></li>
+                    <li><a href="#memories" class="nav-link" id="nav-link-memories" data-i18n="nav_memories">生活足跡</a></li>
                     <li><a href="#friends" class="nav-link" id="nav-link-friends" data-i18n="nav_friends">技術夥伴</a></li>
                     <li><a href="#contact" class="nav-link" id="nav-link-contact" data-i18n="nav_contact">聯絡我</a></li>
                 </ul>
@@ -181,16 +182,15 @@
                 <div class="hero-content">
                     <div class="badge">
                         <span class="badge-dot"></span>
-                        <span class="badge-text" data-i18n="hero_badge">Uptime: 100% | Available for
-                            collaboration</span>
+                        <span class="badge-text" data-i18n="hero_badge">Status: Online | 開放技術交流與合作</span>
                     </div>
                     <h1 class="hero-title" data-i18n="hero_title">
                         我是 <span class="gradient-text">劉峻瑋 (Jun Wei)</span><br>
-                        一個熱愛挑戰的極客
+                        熱愛挑戰的極客實作者
                     </h1>
                     <p class="hero-subtitle" data-i18n="hero_subtitle">
-                        專注於 <strong class="highlight">網路工程</strong> 與 <strong class="highlight">AIoT
-                            邊緣運算</strong>，熱衷於底層虛擬化、網路基礎設施建置，以及軟硬體整合的數位製造實作者。
+                        專注於 <strong class="highlight">網路基礎設施</strong> 與 <strong class="highlight">AIoT
+                            邊緣運算</strong>。<br>熱衷於底層虛擬化、軟路由架構，以及軟硬體整合的數位製造實作者。
                     </p>
                     <div class="hero-actions">
                         <a href="#projects" class="btn btn-primary">
@@ -231,14 +231,12 @@
                                 ( o.o )
                                 > ^ < [ junwei.sh ] </div>
                                     <div class="neofetch-info">
+                                        <span class="nf-label">Core Tech:</span> Proxmox, Docker, ROS 2, OpenWrt<br>
                                         <span class="nf-label">OS:</span> Proxmox VE / Ubuntu LTS<br>
                                         <span class="nf-label">Host:</span> Edge AIoT Lab & Homelab Node<br>
                                         <span class="nf-label">Kernel:</span> 6.8.0-proxmox-pve<br>
-                                        <span class="nf-label">Uptime:</span> 18y 9m (EE Master Student Life)<br>
                                         <span class="nf-label">Shell:</span> bash / zsh<br>
-                                        <span class="nf-label">Core Tech:</span> Proxmox, Docker, ROS 2, OpenWrt<br>
-                                        <span class="nf-label">Interests:</span> 3D Printing, Drone Control,
-                                        Virtualization
+                                        <span class="nf-label">Interests:</span> 3D Printing, Drone Control, Virtualization
                                     </div>
                             </div>
                             <div class="terminal-line">
@@ -257,15 +255,20 @@
                                     class="cmd-highlight">projects</span>, <span class="cmd-highlight">clear</span>,
                                 <span class="cmd-highlight">contact</span>, <span class="cmd-highlight">gui</span>
                             </div>
-                            <div class="terminal-history" id="terminal-history"></div>
+                            <div class="terminal-history" id="terminal-history" aria-live="polite"></div>
                             <div class="terminal-input-line">
                                 <span class="term-prompt">guest@junwei-host:~$</span>
-                                <input type="text" id="terminal-input" autocomplete="off" placeholder="在此輸入指令..."
-                                    data-i18n-placeholder="terminal_placeholder" autofocus>
+                                <input type="text" id="terminal-input" autocomplete="off" placeholder="在此輸入指令..." data-i18n-placeholder="terminal_placeholder" aria-label="終端機指令輸入" data-i18n-aria-label="terminal_input_aria">
                             </div>
-                        </div>
+                    </div><!-- End of #terminal-body -->
+                    <div class="terminal-mobile-bar">
+                            <button type="button" class="btn-terminal-expand" id="terminal-toggle-btn" aria-expanded="false">
+                                <span class="term-toggle-text" data-i18n="terminal_expand">展開完整互動終端機 ▾</span>
+                                <i data-lucide="chevron-down"></i>
+                            </button>
                     </div>
-                </div>
+                </div><!-- End of .terminal-wrapper -->
+            </div>
         </section>
 
         <!-- About Me Section -->
@@ -322,14 +325,14 @@
                                     <span class="timeline-compact-badge badge-current"
                                         data-i18n="timeline_current">目前</span>
                                     <div class="timeline-compact-info">
-                                        <strong data-i18n="timeline_edu_ms">雲林縣虎尾科技大學 電子工程系 碩士班</strong>
+                                        <strong data-i18n="timeline_edu_ms">國立虎尾科技大學 電子工程系 碩士班</strong>
                                         <p data-i18n="timeline_edu_ms_desc">深造嵌入式系統與 AIoT 領域</p>
                                     </div>
                                 </div>
                                 <div class="timeline-compact-item">
                                     <span class="timeline-compact-badge badge-past" data-i18n="timeline_past">經歷</span>
                                     <div class="timeline-compact-info">
-                                        <strong data-i18n="timeline_edu_bs">雲林縣虎尾科技大學 電子工程系</strong>
+                                        <strong data-i18n="timeline_edu_bs">國立虎尾科技大學 電子工程系</strong>
                                         <p data-i18n="timeline_edu_bs_desc">主修電子工程，專注於邊緣運算、軟硬體整合、影像辨識及無人機控制系統開發。</p>
                                     </div>
                                 </div>
@@ -343,7 +346,7 @@
                                 <div class="timeline-compact-item">
                                     <span class="timeline-compact-badge badge-past" data-i18n="timeline_past">經歷</span>
                                     <div class="timeline-compact-info">
-                                        <strong data-i18n="timeline_edu_5yr">雲林縣虎尾科技大學 電子工程科</strong>
+                                        <strong data-i18n="timeline_edu_5yr">國立虎尾科技大學 電子工程科</strong>
                                         <p data-i18n="timeline_edu_5yr_desc">電子工程科五專部學業，奠定扎實的電子電路與硬體分析基礎。</p>
                                     </div>
                                 </div>
@@ -380,20 +383,20 @@
 
                 <div class="skills-tab-container reveal">
                     <div class="skills-tabs" role="tablist" aria-label="技能分類">
-                        <button class="tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="tab-infra" data-tab="infra">
+                        <button class="tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="tab-infra" id="tab-btn-infra" tabindex="0" data-tab="infra">
                             <i data-lucide="server"></i> <span data-i18n="skills_tab_infra">網路與基礎設施</span>
                         </button>
-                        <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-aiot" data-tab="aiot">
+                        <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-aiot" id="tab-btn-aiot" tabindex="-1" data-tab="aiot">
                             <i data-lucide="cpu"></i> <span data-i18n="skills_tab_aiot">軟體與 AIoT 邊緣運算</span>
                         </button>
-                        <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-mfg" data-tab="mfg">
+                        <button class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-mfg" id="tab-btn-mfg" tabindex="-1" data-tab="mfg">
                             <i data-lucide="wrench"></i> <span data-i18n="skills_tab_mfg">數位製造與硬體</span>
                         </button>
                     </div>
 
                     <div class="skills-content">
                         <!-- Infrastructure skills tab -->
-                        <div class="tab-pane active" id="tab-infra" role="tabpanel">
+                        <div class="tab-pane active" id="tab-infra" role="tabpanel" aria-labelledby="tab-btn-infra">
                             <div class="skills-grid">
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -404,8 +407,8 @@
                                     <div class="skill-progress-bg">
                                         <div class="skill-progress-bar" data-progress="90%"></div>
                                     </div>
-                                    <p class="skill-desc" data-i18n="skill_pve_desc">部署多節點虛擬集群，實現 LXC 容器與 VM 的高可用性架構。
-                                    </p>
+                                    <p class="skill-desc" data-i18n="skill_pve_desc">部署多節點虛擬集群，實現 LXC 容器與 VM 的高可用性架構。</p>
+                                    <a href="#proj-infra" class="skill-evidence" data-i18n="skill_ev_pve"><i data-lucide="arrow-up-right"></i> 佐證專案：Homelab 機櫃虛擬化叢集 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -416,8 +419,8 @@
                                     <div class="skill-progress-bg">
                                         <div class="skill-progress-bar" data-progress="85%"></div>
                                     </div>
-                                    <p class="skill-desc" data-i18n="skill_docker_desc">設計 Docker 檔案與 Compose
-                                        配置，構建輕量、易遷移的微服務環境。</p>
+                                    <p class="skill-desc" data-i18n="skill_docker_desc">設計 Docker 檔案與 Compose 配置，構建輕量、易遷移的微服務環境。</p>
+                                    <a href="#proj-infra" class="skill-evidence" data-i18n="skill_ev_docker"><i data-lucide="arrow-up-right"></i> 佐證專案：微服務容器化與自動化部署 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -428,8 +431,8 @@
                                     <div class="skill-progress-bg">
                                         <div class="skill-progress-bar" data-progress="90%"></div>
                                     </div>
-                                    <p class="skill-desc" data-i18n="skill_openwrt_desc">編譯客製化韌體，規劃防火牆、VLAN、VPN
-                                        通道與智慧分流系統。</p>
+                                    <p class="skill-desc" data-i18n="skill_openwrt_desc">編譯客製化韌體，規劃防火牆、VLAN、VPN 通道與智慧分流系統。</p>
+                                    <a href="#proj-infra" class="skill-evidence" data-i18n="skill_ev_openwrt"><i data-lucide="arrow-up-right"></i> 佐證專案：軟路由 VLAN 隔離與加密通道 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -441,12 +444,13 @@
                                         <div class="skill-progress-bar" data-progress="80%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_net_desc">管理網路交換機與路由器，設置多子網隔離、動態路由及防禦策略。</p>
+                                    <a href="#proj-infra" class="skill-evidence" data-i18n="skill_ev_net"><i data-lucide="arrow-up-right"></i> 佐證專案：多子網規劃與防火牆策略 ↗</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- AIoT skills tab -->
-                        <div class="tab-pane" id="tab-aiot" role="tabpanel" hidden>
+                        <div class="tab-pane" id="tab-aiot" role="tabpanel" aria-labelledby="tab-btn-aiot" hidden>
                             <div class="skills-grid">
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -457,8 +461,8 @@
                                     <div class="skill-progress-bg">
                                         <div class="skill-progress-bar" data-progress="65%"></div>
                                     </div>
-                                    <p class="skill-desc" data-i18n="skill_ros_desc">利用 ROS 2 框架開發無人機導航、感測器數據分析與自主避障邏輯。
-                                    </p>
+                                    <p class="skill-desc" data-i18n="skill_ros_desc">利用 ROS 2 框架開發無人機導航、感測器數據分析與自主避障邏輯。</p>
+                                    <a href="#proj-academic" class="skill-evidence" data-i18n="skill_ev_ros"><i data-lucide="arrow-up-right"></i> 佐證專案：無人機邊緣運算與自主導航 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -469,8 +473,8 @@
                                     <div class="skill-progress-bg">
                                         <div class="skill-progress-bar" data-progress="80%"></div>
                                     </div>
-                                    <p class="skill-desc" data-i18n="skill_embed_desc">編寫微控制器 (ESP32, STM32) 與單板電腦 (樹莓派,
-                                        Jetson Nano) 控制程式。</p>
+                                    <p class="skill-desc" data-i18n="skill_embed_desc">編寫微控制器 (ESP32, STM32) 與單板電腦 (樹莓派, Jetson Nano) 控制程式。</p>
+                                    <a href="#proj-ta" class="skill-evidence" data-i18n="skill_ev_embed"><i data-lucide="arrow-up-right"></i> 佐證專案：微處理器實作與助教實驗指導 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -481,8 +485,8 @@
                                     <div class="skill-progress-bg">
                                         <div class="skill-progress-bar" data-progress="65%"></div>
                                     </div>
-                                    <p class="skill-desc" data-i18n="skill_ai_desc">在邊緣運算裝置上部署量化輕量模型 (YOLOv8)
-                                        進行即時物件偵測與追蹤。</p>
+                                    <p class="skill-desc" data-i18n="skill_ai_desc">在邊緣運算裝置上部署量化輕量模型 (YOLOv8) 進行即時物件偵測與追蹤。</p>
+                                    <a href="#proj-academic" class="skill-evidence" data-i18n="skill_ev_ai"><i data-lucide="arrow-up-right"></i> 佐證專案：輕量化模型量化與即時辨識 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -493,14 +497,14 @@
                                     <div class="skill-progress-bg">
                                         <div class="skill-progress-bar" data-progress="80%"></div>
                                     </div>
-                                    <p class="skill-desc" data-i18n="skill_linux_desc">使用版本控制與自動化腳本 (Bash, Ansible)
-                                        管理大規模主機運作。</p>
+                                    <p class="skill-desc" data-i18n="skill_linux_desc">使用版本控制與自動化腳本 (Bash, Ansible) 管理大規模主機運作。</p>
+                                    <a href="#proj-infra" class="skill-evidence" data-i18n="skill_ev_linux"><i data-lucide="arrow-up-right"></i> 佐證專案：Homelab 運維與自動化腳本管理 ↗</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Manufacturing skills tab -->
-                        <div class="tab-pane" id="tab-mfg" role="tabpanel" hidden>
+                        <div class="tab-pane" id="tab-mfg" role="tabpanel" aria-labelledby="tab-btn-mfg" hidden>
                             <div class="skills-grid">
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -511,8 +515,8 @@
                                     <div class="skill-progress-bg">
                                         <div class="skill-progress-bar" data-progress="95%"></div>
                                     </div>
-                                    <p class="skill-desc" data-i18n="skill_3d_desc">熟練改裝 Creality 等機型，自組 Klipper
-                                        韌體核心，優化列印品質。</p>
+                                    <p class="skill-desc" data-i18n="skill_3d_desc">熟練改裝 Creality 等機型，自組 Klipper 韌體核心，優化列印品質。</p>
+                                    <a href="#proj-mfg" class="skill-evidence" data-i18n="skill_ev_3d"><i data-lucide="arrow-up-right"></i> 佐證專案：Creality MGN 雙線軌與韌體調校 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -523,8 +527,8 @@
                                     <div class="skill-progress-bg">
                                         <div class="skill-progress-bar" data-progress="70%"></div>
                                     </div>
-                                    <p class="skill-desc" data-i18n="skill_cad_desc">使用 Fusion 360
-                                        進行機構設計，產出符合公差標準的工業級功能性零件。</p>
+                                    <p class="skill-desc" data-i18n="skill_cad_desc">使用 Fusion 360 進行機構設計，產出符合公差標準的工業級功能性零件。</p>
+                                    <a href="#proj-mfg" class="skill-evidence" data-i18n="skill_ev_cad"><i data-lucide="arrow-up-right"></i> 佐證專案：機構設計與耐公差功能件研發 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -536,6 +540,7 @@
                                         <div class="skill-progress-bar" data-progress="80%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_hw_desc">使用示波器與萬用表進行電路分析，能動手進行貼片元件銲接與維修。</p>
+                                    <a href="#proj-mfg" class="skill-evidence" data-i18n="skill_ev_hw"><i data-lucide="arrow-up-right"></i> 佐證專案：熱端散熱電路與貼片元件維修 ↗</a>
                                 </div>
                             </div>
                         </div>
@@ -553,128 +558,195 @@
                 </div>
 
                 <div class="portfolio-filters reveal" role="group" aria-label="作品篩選">
-                    <button class="filter-btn active" type="button" aria-pressed="true" data-filter="all" data-i18n="filter_all">全部</button>
-                    <button class="filter-btn" type="button" aria-pressed="false" data-filter="academic" data-i18n="filter_academic">學術與研討會</button>
-                    <button class="filter-btn" type="button" aria-pressed="false" data-filter="ta" data-i18n="filter_ta">營隊講師 & 助教</button>
+                    <button class="filter-btn active" type="button" aria-pressed="true" data-filter="all" data-i18n="filter_all">全部專業成果</button>
+                    <button class="filter-btn" type="button" aria-pressed="false" data-filter="academic" data-i18n="filter_academic">學術成果</button>
                     <button class="filter-btn" type="button" aria-pressed="false" data-filter="infra" data-i18n="filter_infra">基礎設施</button>
                     <button class="filter-btn" type="button" aria-pressed="false" data-filter="mfg" data-i18n="filter_mfg">數位製造</button>
-                    <button class="filter-btn" type="button" aria-pressed="false" data-filter="memories" data-i18n="filter_memories">過往與生活</button>
+                    <button class="filter-btn" type="button" aria-pressed="false" data-filter="ta" data-i18n="filter_ta">營隊講師 & 助教</button>
                 </div>
 
                 <div class="portfolio-grid" id="portfolio-grid">
-                    <article class="project-card glassmorphism reveal" data-category="academic" data-gallery="academic">
+                    <!-- Project 1: Academic Paper Presentation -->
+                    <article class="project-card glassmorphism reveal" data-category="academic" data-gallery="academic" id="proj-academic">
                         <div class="project-img-wrapper">
                             <img src="assets/projects/project-academic-cover-thumb.webp" alt="ICCT-Pacific 最佳學生海報獎" class="project-img"
                                 width="600" height="338" loading="lazy" decoding="async" data-i18n-alt="proj_acad_alt">
                             <div class="project-category-badge" data-i18n="proj_acad_badge">學術成果</div>
                         </div>
                         <div class="project-info">
-                            <span class="project-tech-tags">
+                            <div class="project-tech-tags">
+                                <span class="tech-tag">IEEE ICCT-Pacific</span>
+                                <span class="tech-tag">Edge Computing</span>
                                 <span class="tech-tag">Paper Presentation</span>
-                                <span class="tech-tag">ICCT-Pacific</span>
-                            </span>
+                                <span class="tech-tag">Best Poster Award</span>
+                            </div>
                             <h3 class="project-title" data-i18n="proj_acad_title">ICCT-Pacific 國際學術會議</h3>
-                            <p class="project-highlight" data-i18n="proj_acad_highlight">成果｜最佳學生海報獎</p>
-                            <p class="project-desc" data-i18n="proj_acad_desc">
-                                於 ICCT-Pacific 國際學術研討會上發表學術論文，並憑藉扎實的系統架構與精美的海報設計展示，獲頒「最佳學生海報獎 (Best Student Poster
-                                Award)」。
-                            </p>
+                            <p class="project-highlight" data-i18n="proj_acad_highlight">成果｜IEEE 國際會議「最佳學生海報獎 (Best Student Poster Award)」</p>
+                            
+                            <div class="project-narrative">
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_challenge">背景挑戰</span>
+                                    <p class="narrative-text" data-i18n="proj_acad_c_desc">在邊緣節點運算資源有限與弱網通訊環境下，驗證邊緣 AIoT 系統之即時遙測傳輸與推論排程架構。</p>
+                                </div>
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_action">核心實作</span>
+                                    <p class="narrative-text" data-i18n="proj_acad_a_desc">獨立規劃邊緣微服務通訊架構，優化模型推論排程，並在國際學術研討會進行全英語論文口頭報告與海報現場展示。</p>
+                                </div>
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_result">實證成果</span>
+                                    <p class="narrative-text" data-i18n="proj_acad_r_desc">論文獲審查通過發表於 IEEE ICCT-Pacific 研討會；憑藉嚴謹系統架構設計與視覺化實測展示，榮獲會議評選最佳學生海報獎。</p>
+                                </div>
+                            </div>
+
                             <button type="button" class="btn-project-link">
                                 <span data-i18n="proj_acad_link">查看學術成果相簿</span> <i data-lucide="image"></i>
                             </button>
                         </div>
                     </article>
 
-                    <article class="project-card glassmorphism reveal delay-200" data-category="infra"
-                        data-gallery="infra">
+                    <!-- Project 2: Homelab Server Rack -->
+                    <article class="project-card glassmorphism reveal delay-200" data-category="infra" data-gallery="infra" id="proj-infra">
                         <div class="project-img-wrapper">
                             <img src="assets/projects/project-homelab-cover-thumb.webp" alt="伺服器與 NAS 基礎設施配置" class="project-img"
                                 width="600" height="338" loading="lazy" decoding="async" data-i18n-alt="proj_infra_alt">
                             <div class="project-category-badge" data-i18n="proj_infra_badge">基礎設施</div>
                         </div>
                         <div class="project-info">
-                            <span class="project-tech-tags">
+                            <div class="project-tech-tags">
                                 <span class="tech-tag">Proxmox PVE</span>
                                 <span class="tech-tag">OpenWrt</span>
-                                <span class="tech-tag">Docker</span>
-                            </span>
+                                <span class="tech-tag">Docker Compose</span>
+                                <span class="tech-tag">VLAN 802.1Q</span>
+                                <span class="tech-tag">WireGuard</span>
+                            </div>
                             <h3 class="project-title" data-i18n="proj_infra_title">個人極客 Homelab 機櫃佈置</h3>
-                            <p class="project-highlight" data-i18n="proj_infra_highlight">架構｜虛擬化、網路隔離與微服務</p>
-                            <p class="project-desc" data-i18n="proj_infra_desc">
-                                從零建構個人機櫃，採用 Proxmox VE 進行多虛擬機器管理。上層透過 OpenWrt 作為軟路由核心提供 VLAN 隔離、負載均衡與 Docker 微服務部署。
-                            </p>
+                            <p class="project-highlight" data-i18n="proj_infra_highlight">架構｜PVE 虛擬化叢集、802.1Q VLAN 隔離與 Docker 微服務</p>
+                            
+                            <div class="project-narrative">
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_challenge">背景挑戰</span>
+                                    <p class="narrative-text" data-i18n="proj_infra_c_desc">在家庭低功耗環境下，整合實驗開發、NAS 私有雲儲存與日常網路，需達成高可用性與實體網路安全隔離。</p>
+                                </div>
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_action">核心實作</span>
+                                    <p class="narrative-text" data-i18n="proj_infra_a_desc">以 Proxmox VE 部署 VM 與 LXC 容器；以 OpenWrt 軟路由為骨幹劃分 4 組 VLAN（管理/伺服器/IoT/訪客），配置 WireGuard 加密通道。</p>
+                                </div>
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_result">實證成果</span>
+                                    <p class="narrative-text" data-i18n="proj_infra_r_desc">達成 7x24 穩定運行 10+ 項 Docker 微服務，建置外網安全穿透通道與定時冷熱備份機制。</p>
+                                </div>
+                            </div>
+
                             <button type="button" class="btn-project-link">
                                 <span data-i18n="proj_infra_link">查看機櫃成果相簿</span> <i data-lucide="image"></i>
                             </button>
                         </div>
                     </article>
 
-                    <article class="project-card glassmorphism reveal" data-category="mfg" data-gallery="mfg">
+                    <!-- Project 3: 3D Printer Modding -->
+                    <article class="project-card glassmorphism reveal" data-category="mfg" data-gallery="mfg" id="proj-mfg">
                         <div class="project-img-wrapper">
                             <img src="assets/3DP/3dp-enclosure-mod-thumb.webp" alt="3D 列印機改裝與維修" class="project-img" width="600" height="338" loading="lazy" decoding="async"
                                 data-i18n-alt="proj_mfg_alt">
                             <div class="project-category-badge" data-i18n="proj_mfg_badge">數位製造</div>
                         </div>
                         <div class="project-info">
-                            <span class="project-tech-tags">
+                            <div class="project-tech-tags">
                                 <span class="tech-tag">Creality</span>
-                                <span class="tech-tag">MGN 雙線軌</span>
-                                <span class="tech-tag">Klipper</span>
-                                <span class="tech-tag">硬體維修</span>
-                            </span>
+                                <span class="tech-tag">MGN12H 雙線軌</span>
+                                <span class="tech-tag">Klipper 韌體</span>
+                                <span class="tech-tag">Input Shaper</span>
+                                <span class="tech-tag">Fusion 360</span>
+                            </div>
                             <h3 class="project-title" data-i18n="proj_mfg_title">Creality 3D 列印機改裝與維修</h3>
-                            <p class="project-highlight" data-i18n="proj_mfg_highlight">成果｜提升列印精度與高速穩定性</p>
-                            <p class="project-desc" data-i18n="proj_mfg_desc">
-                                升級 Y 軸 MGN 雙線性導軌消除底板晃動，重寫 Klipper 控制韌體，並針對近端擠出機與噴頭進行深度拆解維修與自製 3D 列印結構件，顯著提升列印精度與高速穩定性。
-                            </p>
+                            <p class="project-highlight" data-i18n="proj_mfg_highlight">成果｜標準 3DBenchy 列印時間縮短約 45%，組裝件外徑公差維持 ±0.05mm 內</p>
+                            
+                            <div class="project-narrative">
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_challenge">背景挑戰</span>
+                                    <p class="narrative-text" data-i18n="proj_mfg_c_desc">原廠 V 輪熱床在高加速度下易晃動產生層紋；遠端擠出喉管散熱不佳易導致噴頭堵塞與拉絲。</p>
+                                </div>
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_action">核心實作</span>
+                                    <p class="narrative-text" data-i18n="proj_mfg_a_desc">Y 軸升級 MGN12H 工業級線性導軌，改裝近端雙齒輪擠出機；Fusion 360 自製冷卻風罩；移植 Klipper 韌體並以 ADXL345 加速度計校正 Input Shaper 共振頻率補償。</p>
+                                </div>
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_result">實證成果</span>
+                                    <p class="narrative-text" data-i18n="proj_mfg_r_desc">比較原廠出廠配置（Marlin 預設 500 mm/s² 加速度），改裝後安全運作加速度達 3,000 mm/s²，標準 3DBenchy 列印時間縮短約 45%（實測 1h45m 降至 58m），緊公差功能件組裝一次到位。</p>
+                                </div>
+                            </div>
+
                             <button type="button" class="btn-project-link">
                                 <span data-i18n="proj_mfg_link">查看維修與改裝相片</span> <i data-lucide="image"></i>
                             </button>
                         </div>
                     </article>
 
-                    <!-- Project 5: Teaching Assistant & Science Camp Lecturer -->
-                    <article class="project-card glassmorphism reveal delay-100" data-category="ta"
-                        data-gallery="assistant">
+                    <!-- Project 4: Teaching Assistant & Science Camp Lecturer -->
+                    <article class="project-card glassmorphism reveal delay-100" data-category="ta" data-gallery="assistant" id="proj-ta">
                         <div class="project-img-wrapper">
                             <img src="assets/ta/ta-camp-semiconductor-intro-thumb.webp" alt="科技營隊研習講師與課程助教" width="600" height="338" loading="lazy" decoding="async" class="project-img"
                                 data-i18n-alt="proj_ta_alt">
                             <div class="project-category-badge" data-i18n="proj_ta_badge">營隊講師 & 課程助教</div>
                         </div>
                         <div class="project-info">
-                            <span class="project-tech-tags">
+                            <div class="project-tech-tags">
                                 <span class="tech-tag" data-i18n="tag_camp_lecturer">探索營研習講師</span>
                                 <span class="tech-tag" data-i18n="tag_photolithography">半導體與光微影實作</span>
                                 <span class="tech-tag" data-i18n="tag_embedded_aiot">嵌入式與 AIoT</span>
                                 <span class="tech-tag" data-i18n="tag_lab_instruction">實驗室指導</span>
-                            </span>
+                            </div>
                             <h3 class="project-title" data-i18n="proj_ta_title">科技營隊研習講師 & 課程助教</h3>
-                            <p class="project-highlight" data-i18n="proj_ta_highlight">角色｜研習講師與電子工程課程助教</p>
-                            <p class="project-desc" data-i18n="proj_ta_desc">
-                                擔任雲林縣國中資優生暑期探索體驗營「半導體與光微影實作」研習講師，帶領學員於實驗室進行晶圓製程與光微影技術探索；並長期擔任大學電子系專業課程助教，指導微處理器、嵌入式系統與 AIoT 電子電路除錯。
-                            </p>
+                            <p class="project-highlight" data-i18n="proj_ta_highlight">角色｜半導體探索營研習講師與電子工程系助教（滿意度 98% 依據課後回饋問卷）</p>
+                            
+                            <div class="project-narrative">
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_challenge">背景任務</span>
+                                    <p class="narrative-text" data-i18n="proj_ta_c_desc">向國中資優學員科普高門檻之半導體晶圓製程，並長期協助大學部學生排查微處理器與電路實驗整合故障。</p>
+                                </div>
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_action">核心實作</span>
+                                    <p class="narrative-text" data-i18n="proj_ta_a_desc">設計「半導體與光微影實作」模組化教案，帶領學員穿戴防塵衣於無塵室進行塗膠、紫外光微影曝光與顯影；課堂指導嵌入式微處理器與示波器除錯。</p>
+                                </div>
+                                <div class="narrative-row">
+                                    <span class="narrative-label" data-i18n="label_result">實證成果</span>
+                                    <p class="narrative-text" data-i18n="proj_ta_r_desc">引導 30+ 位學員完成微米級晶圓圖案製作，依據課後回收之全體學員匿名問卷統計，課程實作滿意度達 98%；長期協助數十位大學生突破軟硬體整合瓶頸。</p>
+                                </div>
+                            </div>
+
                             <button type="button" class="btn-project-link">
                                 <span data-i18n="proj_ta_link">瀏覽營隊與教學花絮相簿</span> <i data-lucide="image"></i>
                             </button>
                         </div>
                     </article>
+                </div>
+            </div>
+        </section>
 
-                    <!-- Project 6: Graduation Memories -->
-                    <article class="project-card glassmorphism reveal delay-200" data-category="memories"
-                        data-gallery="graduation">
-                        <div class="project-img-wrapper">
-                            <img src="assets/graduation/graduation-senior-1-thumb.webp" alt="我的過往：學士服合影" class="project-img" width="600" height="338" loading="lazy" decoding="async"
+        <!-- Life & Memories Section (Independent from technical portfolio) -->
+        <section class="memories-section" id="memories">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 class="section-title" data-i18n="memories_title">生活紀實 & 旅程足跡</h2>
+                    <p class="section-tagline" data-i18n="memories_tagline">求學歲月與探索世界的珍貴時光</p>
+                </div>
+
+                <div class="memories-grid">
+                    <!-- Memory 1: Graduation -->
+                    <article class="memory-card glassmorphism reveal" data-gallery="graduation">
+                        <div class="memory-img-wrapper">
+                            <img src="assets/graduation/graduation-senior-1-thumb.webp" alt="我的過往：學士服合影" class="memory-img" width="600" height="338" loading="lazy" decoding="async"
                                 data-i18n-alt="proj_grad_alt">
-                            <div class="project-category-badge" data-i18n="proj_grad_badge">過往紀錄</div>
+                            <div class="memory-badge">求學校園</div>
                         </div>
-                        <div class="project-info">
-                            <span class="project-tech-tags">
-                                <span class="tech-tag" data-i18n="tag_vs">西螺農工電子科</span>
-                                <span class="tech-tag" data-i18n="tag_nfu">虎科大電子工程</span>
-                                <span class="tech-tag" data-i18n="tag_grad">畢業紀念</span>
-                            </span>
-                            <h3 class="project-title" data-i18n="proj_grad_title">我的過往：求學與畢業紀念</h3>
-                            <p class="project-desc" data-i18n="proj_grad_desc">
+                        <div class="memory-info">
+                            <div class="project-tech-tags">
+                                <span class="tech-tag">西螺農工電子科</span>
+                                <span class="tech-tag">虎科大電子工程</span>
+                                <span class="tech-tag">畢業紀念</span>
+                            </div>
+                            <h3 class="memory-title" data-i18n="proj_grad_title">我的過往：求學與畢業紀念</h3>
+                            <p class="memory-desc" data-i18n="proj_grad_desc">
                                 記錄我在雲林西螺農工電子科與國立虎尾科技大學電子工程系的學習歲月，收錄了與老師、實驗室學長及同儕們珍貴的學士服合影。
                             </p>
                             <button type="button" class="btn-project-link">
@@ -683,21 +755,22 @@
                         </div>
                     </article>
 
-                    <!-- Project 7: Friends & Travels -->
-                    <article class="project-card glassmorphism reveal" data-category="memories" data-gallery="friends">
-                        <div class="project-img-wrapper">
-                            <img src="assets/travel/travel-okayama-castle-thumb.webp" alt="我的朋友們：旅行紀念" class="project-img"
+                    <!-- Memory 2: Travels -->
+                    <article class="memory-card glassmorphism reveal delay-100" data-gallery="friends">
+                        <div class="memory-img-wrapper">
+                            <img src="assets/travel/travel-okayama-castle-thumb.webp" alt="我的朋友們：旅行紀念" class="memory-img"
                                 width="600" height="338" loading="lazy" decoding="async" data-i18n-alt="proj_travel_alt">
-                            <div class="project-category-badge" data-i18n="proj_travel_badge">生活足跡</div>
+                            <div class="memory-badge">跨國旅程</div>
                         </div>
-                        <div class="project-info">
-                            <span class="project-tech-tags">
-                                <span class="tech-tag" data-i18n="tag_okayama">岡山城</span>
-                                <span class="tech-tag" data-i18n="tag_yamaguchi">山口大學</span>
-                                <span class="tech-tag" data-i18n="tag_travel">旅行足跡</span>
-                            </span>
-                            <h3 class="project-title" data-i18n="proj_travel_title">我的朋友們：旅行合影</h3>
-                            <p class="project-desc" data-i18n="proj_travel_desc">
+                        <div class="memory-info">
+                            <div class="project-tech-tags">
+                                <span class="tech-tag">日本岡山城</span>
+                                <span class="tech-tag">山口大學</span>
+                                <span class="tech-tag">嚴島神社</span>
+                                <span class="tech-tag">友誼足跡</span>
+                            </div>
+                            <h3 class="memory-title" data-i18n="proj_travel_title">我的朋友們：旅行合影</h3>
+                            <p class="memory-desc" data-i18n="proj_travel_desc">
                                 分享與朋友們共同探索世界的精彩旅程，收錄了在岡山城、日本山口大學及嚴島神社的海上帝居等旅行紀念合照。
                             </p>
                             <button type="button" class="btn-project-link">
@@ -719,11 +792,11 @@
                 <div class="friends-grid">
                     <div class="friend-card glassmorphism reveal">
                         <div class="friend-img-wrapper">
-                            <img src="assets/profile/partner-avatar-thumb.webp" alt="合作夥伴極摯友 鐘明穎 Ming-Ying Chung"
+                            <img src="assets/profile/partner-avatar-thumb.webp" alt="合作夥伴暨摯友 鐘明穎 Ming-Ying Chung"
                                 class="friend-img" width="80" height="80" loading="lazy" decoding="async" data-i18n-alt="friend_img_alt">
                         </div>
                         <div class="friend-info">
-                            <h3 class="friend-name" data-i18n="friend_name">合作夥伴極摯友 鐘明穎 (Ming-Ying Chung)</h3>
+                            <h3 class="friend-name" data-i18n="friend_name">合作夥伴暨摯友 鐘明穎 (Ming-Ying Chung)</h3>
                             <p class="friend-bio" data-i18n="friend_bio">
                                 專注於 IoT 開發、影像辨識與無線通訊。西螺農工電子科時期的同窗戰友，熱衷於用工程實作連結影像與真實世界。
                             </p>
@@ -810,8 +883,8 @@
             <div class="footer-info">
                 <p data-i18n="footer_rights">&copy; 2026 Jun Wei Liu. All rights reserved.</p>
                 <p class="footer-geek-stats">
-                    <span class="stat-tag">uptime: 99.98%</span>
-                    <span class="stat-tag">latency: 12ms</span>
+                    <span class="stat-tag">system: operational</span>
+                    <span class="stat-tag">node: edge-homelab</span>
                     <span class="stat-tag">stack: HTML/CSS/JS</span>
                     <a href="https://www.liu0308.us.kg/" target="_blank" rel="noopener" class="footer-nav-link"><i
                             data-lucide="compass" size="14"></i> <span data-i18n="footer_portal">程式導航頁</span></a>

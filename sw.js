@@ -1,6 +1,10 @@
-const CACHE_NAME = 'junwei-portfolio-v12';
+const CACHE_PREFIX = 'junwei-portfolio-';
+const CACHE_NAME = `${CACHE_PREFIX}v16`;
+
+// Core critical assets for Jun Wei Liu's portfolio shell (excludes heavy standalone tool libraries)
 const CORE_ASSETS = [
     './',
+    './index.html',
     './index.css',
     './script.js',
     './manifest.json',
@@ -9,19 +13,20 @@ const CORE_ASSETS = [
     './assets/icon/pwa-192.png',
     './assets/icon/pwa-512.png',
     './assets/icon/github.webp',
-    './assets/icon/instagram.webp',
-    './shipping-calculator/',
-    './shipping-calculator/style.css?v=10',
-    './shipping-calculator/app.js?v=10',
-    './shipping-calculator/vendor/xlsx.full.min.js',
-    './shipping-calculator/vendor/opencc.js'
+    './assets/icon/instagram.webp'
 ];
 
 self.addEventListener('install', (event) => {
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(CORE_ASSETS).catch((err) => {
-                console.warn('[ServiceWorker] Pre-cache error:', err);
+        caches.open(CACHE_NAME).then(async (cache) => {
+            // Use Promise.allSettled so single asset failure does not abort installation
+            const results = await Promise.allSettled(
+                CORE_ASSETS.map((url) => cache.add(url))
+            );
+            results.forEach((res, index) => {
+                if (res.status === 'rejected') {
+                    console.warn(`[ServiceWorker] Pre-cache skipped for ${CORE_ASSETS[index]}:`, res.reason);
+                }
             });
         }).then(() => self.skipWaiting())
     );
@@ -32,7 +37,8 @@ self.addEventListener('activate', (event) => {
         caches.keys().then((cacheNames) => {
             return Promise.all(
                 cacheNames.map((name) => {
-                    if (name !== CACHE_NAME) {
+                    // Safe cleanup: ONLY remove older caches belonging to this portfolio, never touch other app caches
+                    if (name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME) {
                         return caches.delete(name);
                     }
                 })
@@ -51,9 +57,11 @@ self.addEventListener('fetch', (event) => {
     // Cache-first for static assets, network-first for navigation
     if (request.mode === 'navigate') {
         event.respondWith(
-            fetch(request).catch(() => caches.match(request).then((cachedResponse) => {
-                return cachedResponse || caches.match('./index.html');
-            }))
+            fetch(request).catch(async () => {
+                const cachedResponse = await caches.match(request);
+                if (cachedResponse) return cachedResponse;
+                return (await caches.match('./index.html')) || (await caches.match('./'));
+            })
         );
         return;
     }
@@ -61,14 +69,16 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(request).then((cachedResponse) => {
             if (cachedResponse) {
-                // Fetch in background to update cache (stale-while-revalidate)
-                fetch(request).then((networkResponse) => {
+                // Keep SW alive until background cache update completes (F14 fix via waitUntil)
+                const updatePromise = fetch(request).then((networkResponse) => {
                     if (networkResponse && networkResponse.status === 200) {
-                        caches.open(CACHE_NAME).then((cache) => {
-                            cache.put(request, networkResponse.clone());
+                        return caches.open(CACHE_NAME).then((cache) => {
+                            return cache.put(request, networkResponse.clone());
                         });
                     }
                 }).catch(() => {});
+
+                event.waitUntil(updatePromise);
                 return cachedResponse;
             }
 
