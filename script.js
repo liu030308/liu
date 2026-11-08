@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const toolsContainers = document.querySelectorAll('.tools-dropdown-container');
 
     // Decode email safely to prevent scrapers
-    const email = atob("bGl1MDMwOEBsaXUwMzA4LnVzLmtn");
+    const email = atob("TGl1QGxpdTAzMDgueHgua2c=");
     document.querySelectorAll('.email-placeholder').forEach(el => {
         el.textContent = email;
         if (el.tagName === 'A') {
@@ -251,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
 `,
             'term_contact': `=== 聯絡資訊 ===
 - Email: {email}
-- GitHub: https://github.com/ma4980
+- GitHub: https://github.com/liu030308
 - 所在地: 雲林 (Yunlin, Taiwan)
 - Proxmox 主節點狀態: ONLINE
 * 您也可以在右側網頁的聯絡表單直接發送訊息！
@@ -568,7 +568,7 @@ document.addEventListener('DOMContentLoaded', () => {
 `,
             'term_contact': `=== Contact Information ===
 - Email: {email}
-- GitHub: https://github.com/ma4980
+- GitHub: https://github.com/liu030308
 - Location: Yunlin, Taiwan
 - Proxmox Node Status: ONLINE
 * You can also use the contact form on the right!
@@ -885,7 +885,7 @@ document.addEventListener('DOMContentLoaded', () => {
 `,
             'term_contact': `=== 連絡先一覧 ===
 - Email: {email}
-- GitHub: https://github.com/ma4980
+- GitHub: https://github.com/liu030308
 - 所在地: 雲林 (Yunlin, Taiwan)
 - Proxmox ノード状態: ONLINE
 * 画面右側のコンタクトフォームからも直接メッセージを送信できます！
@@ -2240,7 +2240,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     break;
 
                 case 'contact':
-                    appendHistoryLine(cmd, `正在為您定位至 <strong>聯絡我</strong> 區塊... (Email: liu0308@liu0308.us.kg)`);
+                    appendHistoryLine(cmd, `正在為您定位至 <strong>聯絡我</strong> 區塊... (Email: Liu@liu0308.xx.kg)`);
                     const contactEl = document.getElementById('contact');
                     if (contactEl) contactEl.scrollIntoView({ behavior: 'smooth' });
                     break;
@@ -2316,9 +2316,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     } else if (arg === 'skills.md') {
                         appendHistoryLine(cmd, `[技術核心] Proxmox PVE, OpenWrt, Docker, ROS 2, Embedded C/C++, Python, Fusion 360, Klipper 3D 列印`);
                     } else if (arg === 'resume.pdf') {
-                        appendHistoryLine(cmd, `[系統提示] 履歷檔案準備中，若有合作或聘用需求歡迎直接來信: <a href="mailto:liu0308@liu0308.us.kg" style="color:var(--accent-cyan)">liu0308@liu0308.us.kg</a>`);
+                        appendHistoryLine(cmd, `[系統提示] 履歷檔案準備中，若有合作或聘用需求歡迎直接來信: <a href="mailto:Liu@liu0308.xx.kg" style="color:var(--accent-cyan)">Liu@liu0308.xx.kg</a>`);
                     } else if (arg === 'contact.sh') {
-                        appendHistoryLine(cmd, `curl -X POST https://api.liu0308.us.kg/contact -d '{"email": "liu0308@liu0308.us.kg"}'`);
+                        appendHistoryLine(cmd, `curl -X POST https://api.liu0308.us.kg/contact -d '{"email": "Liu@liu0308.xx.kg"}'`);
                     } else {
                         appendHistoryLine(cmd, `cat: ${escapeHtml(arg)}: 沒有此一檔案或目錄`, true);
                     }

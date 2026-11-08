@@ -1,4 +1,4 @@
-const CACHE_NAME = 'junwei-portfolio-v10';
+const CACHE_NAME = 'junwei-portfolio-v12';
 const CORE_ASSETS = [
     './',
     './index.css',
