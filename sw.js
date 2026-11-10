@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'junwei-portfolio-';
-const CACHE_NAME = `${CACHE_PREFIX}v16`;
+const CACHE_NAME = `${CACHE_PREFIX}v26`;
 
 // Core critical assets for Jun Wei Liu's portfolio shell (excludes heavy standalone tool libraries)
 const CORE_ASSETS = [
@@ -37,8 +37,9 @@ self.addEventListener('activate', (event) => {
         caches.keys().then((cacheNames) => {
             return Promise.all(
                 cacheNames.map((name) => {
-                    // Safe cleanup: ONLY remove older caches belonging to this portfolio, never touch other app caches
+                    // Safe cleanup: IMMEDIATELY remove older caches belonging to this portfolio
                     if (name.startsWith(CACHE_PREFIX) && name !== CACHE_NAME) {
+                        console.log(`[ServiceWorker] Removing stale cache: ${name}`);
                         return caches.delete(name);
                     }
                 })
@@ -66,10 +67,14 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    // For versioned query assets (e.g. ?v=...), respect versioning by matching exact request first
+    const hasVersionQuery = request.url.includes('?v=');
+    const matchOptions = hasVersionQuery ? {} : { ignoreSearch: true };
+
     event.respondWith(
-        caches.match(request).then((cachedResponse) => {
+        caches.match(request, matchOptions).then((cachedResponse) => {
             if (cachedResponse) {
-                // Keep SW alive until background cache update completes (F14 fix via waitUntil)
+                // Keep SW alive until background cache update completes
                 const updatePromise = fetch(request).then((networkResponse) => {
                     if (networkResponse && networkResponse.status === 200) {
                         return caches.open(CACHE_NAME).then((cache) => {

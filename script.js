@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const langOptions = document.querySelectorAll('.lang-option');
     const themeToggleBtns = document.querySelectorAll('.btn-theme-toggle');
     const htmlElement = document.documentElement;
-    const perfToggleBtns = document.querySelectorAll('.btn-perf-toggle');
     const gameContainers = document.querySelectorAll('.game-dropdown-container');
     const toolsContainers = document.querySelectorAll('.tools-dropdown-container');
 
@@ -99,10 +98,23 @@ document.addEventListener('DOMContentLoaded', () => {
         img.addEventListener('dragstart', e => e.preventDefault());
     });
 
-    // 1. Initialize Lucide Icons
-    if (typeof lucide !== 'undefined') {
-        lucide.createIcons();
+    // 1. Initialize Lucide Icons with self-healing retry mechanism
+    const initLucideIcons = () => {
+        if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
+            lucide.createIcons();
+            return true;
+        }
+        return false;
+    };
+
+    if (!initLucideIcons()) {
+        window.addEventListener('load', initLucideIcons);
+        const lucideRetry = setInterval(() => {
+            if (initLucideIcons()) clearInterval(lucideRetry);
+        }, 100);
+        setTimeout(() => clearInterval(lucideRetry), 4000);
     }
+    window.__initLucideIcons = initLucideIcons;
 
     // 2. Theme Toggle (Dark / Light Mode)
     
@@ -123,45 +135,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 2b. Performance Toggle (Eco Mode / High Performance)
-    const savedPerf = localStorage.getItem('perf-mode');
-    
-    const setEcoMode = (enable) => {
-        if (enable) {
-            document.body.classList.add('eco-mode');
-            localStorage.setItem('perf-mode', 'eco');
-            perfToggleBtns.forEach(btn => {
-                btn.classList.add('eco-mode');
-                const icon = btn.querySelector('i');
-                if (icon) icon.setAttribute('data-lucide', 'zap-off');
-            });
-        } else {
-            document.body.classList.remove('eco-mode');
-            localStorage.setItem('perf-mode', 'normal');
-            perfToggleBtns.forEach(btn => {
-                btn.classList.remove('eco-mode');
-                const icon = btn.querySelector('i');
-                if (icon) icon.setAttribute('data-lucide', 'zap');
-            });
-        }
-        
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
-        }
-        
-        window.dispatchEvent(new CustomEvent('perfModeChanged'));
-    };
-    
-    if (savedPerf === 'eco') {
-        setEcoMode(true);
-    }
-    
-    perfToggleBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const isEco = document.body.classList.contains('eco-mode');
-            setEcoMode(!isEco);
-        });
-    });
+    // Clean up any legacy perf-mode setting
+    try { localStorage.removeItem("perf-mode"); document.body.classList.remove("eco-mode"); } catch(e) {}
 
     // 3. Language switcher & Translation tables
     const translations = window.__portfolioI18n = {
@@ -459,7 +434,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'lightbox_next': '下一張',
             'lang_toggle_aria': '切換語言',
             'theme_toggle_aria': '切換深淺色模式',
-            'perf_toggle_aria': '切換省電模式',
             'menu_toggle_aria': '打開選單',
             'menu_close_aria': '關閉選單',
             'lang_toggle_title': '切換語言 / Select Language',
@@ -467,7 +441,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'game_toggle_title': '我的遊戲與互動 / Games & Interactives',
             'game_fortune': '天機占卜',
             'game_neon_tide': '霓虹街機 (11合1)',
-            'perf_toggle_title': '切換省電模式',
             'lightbox_img_alt': '大圖',
             'profile_img_alt': '劉峻瑋 Jun Wei Liu',
             'friend_img_alt': '合作夥伴暨摯友 鐘明穎 Ming-Ying Chung',
@@ -655,6 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'terminal_info_quote': '"Infrastructure is my canvas, hardware circuits are my brush, and networks are my language."',
             'terminal_help_msg': 'Available commands: <span class="cmd-highlight">skills</span>, <span class="cmd-highlight">projects</span>, <span class="cmd-highlight">clear</span>, <span class="cmd-highlight">contact</span>, <span class="cmd-highlight">gui</span>',
             'terminal_placeholder': 'Type command here...',
+            'terminal_input_aria': 'Terminal command input',
             'term_cmd_not_found': 'bash: command not found: {cmd}. Type <span class="cmd-highlight">help</span> to show available commands.',
             'term_gui_msg': 'Navigating to graphical GUI...',
 
@@ -834,7 +808,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'lightbox_next': 'Next',
             'lang_toggle_aria': 'Select Language',
             'theme_toggle_aria': 'Toggle Dark/Light Mode',
-            'perf_toggle_aria': 'Toggle Performance Mode',
             'menu_toggle_aria': 'Open Menu',
             'menu_close_aria': 'Close Menu',
             'lang_toggle_title': 'Select Language',
@@ -842,7 +815,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'game_toggle_title': 'Games & Interactives',
             'game_fortune': 'Mystic Fortune',
             'game_neon_tide': 'Neon Tide Arcade',
-            'perf_toggle_title': 'Toggle Performance Mode',
             'lightbox_img_alt': 'Large Image',
             'profile_img_alt': 'Jun Wei Liu',
             'friend_img_alt': 'Partner Ming-Ying Chung',
@@ -1029,6 +1001,7 @@ document.addEventListener('DOMContentLoaded', () => {
             'terminal_info_quote': '"インフラ構築は私のキャンバスであり、ハードウェア回路は私の筆、ネットワークは私の言語です。"',
             'terminal_help_msg': 'コマンド: <span class="cmd-highlight">skills</span>, <span class="cmd-highlight">projects</span>, <span class="cmd-highlight">clear</span>, <span class="cmd-highlight">contact</span>, <span class="cmd-highlight">gui</span>',
             'terminal_placeholder': 'コマンドを入力してください...',
+            'terminal_input_aria': 'ターミナルコマンド入力',
             'term_cmd_not_found': 'bash: コマンドが見つかりません: {cmd}。 <span class="cmd-highlight">help</span> コマンドでヘルプを参照してください。',
             'term_gui_msg': 'グラフィカル自己紹介セクションに移動中...',
 
@@ -1208,7 +1181,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'lightbox_next': '次へ',
             'lang_toggle_aria': '言語切替',
             'theme_toggle_aria': 'テーマ切替',
-            'perf_toggle_aria': '省電力モード切替',
             'menu_toggle_aria': 'メニューを開く',
             'menu_close_aria': 'メニューを閉じる',
             'lang_toggle_title': '言語切り替え',
@@ -1216,7 +1188,6 @@ document.addEventListener('DOMContentLoaded', () => {
             'game_toggle_title': 'ゲームとインタラクティブ',
             'game_fortune': '天機占い',
             'game_neon_tide': 'ネオンアーケード',
-            'perf_toggle_title': '省電力モード切替',
             'lightbox_img_alt': '拡大画像',
             'profile_img_alt': '劉峻瑋 Jun Wei Liu',
             'friend_img_alt': 'パートナー鐘明穎氏',
@@ -1548,6 +1519,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Close menu on Escape key (F13 fix)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && navMenu.classList.contains('active')) {
+            setMobileMenuOpen(false);
+            mobileMenuToggle.focus();
+        }
+    });
+
     // 5. Throttled Scroll Listener & Scroll Spy (60fps optimized)
     const navbar = document.getElementById('navbar');
     const btnBackToTop = document.getElementById('btn-back-to-top');
@@ -1830,26 +1809,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let lightboxReturnFocus = null;
     const lightboxFocusableSelector = 'button:not([disabled]), [href], [tabindex]:not([tabindex="-1"])';
 
-    const openLightbox = (galleryKey, imageSrc) => {
-        currentGallery = galleries[galleryKey] || [];
-        const foundIndex = currentGallery.findIndex(item => imageSrc.includes(item.src));
-        currentIndex = foundIndex !== -1 ? foundIndex : 0;
-        lightboxReturnFocus = document.activeElement;
-
-        updateLightboxContent();
-        lightbox.classList.remove('hide');
-        lightbox.setAttribute('aria-hidden', 'false');
-        setTimeout(() => {
-            lightbox.classList.add('active');
-            btnClose?.focus();
-        }, 50);
-        document.body.style.overflow = 'hidden';
-    };
-
-    const updateLightboxContent = () => {
+    const syncLightboxContent = () => {
         if (currentGallery.length === 0) return;
         const currentItem = currentGallery[currentIndex];
+
         lightboxImg.src = currentItem.src;
+        if (typeof lightboxImg.decode === 'function') {
+            lightboxImg.decode().catch(() => {});
+        }
         
         if (currentItem.caption_key && translations[activeLanguage] && translations[activeLanguage][currentItem.caption_key]) {
             lightboxCaption.textContent = translations[activeLanguage][currentItem.caption_key];
@@ -1866,27 +1833,45 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
+    const openLightbox = (galleryKey, imageSrc) => {
+        currentGallery = galleries[galleryKey] || [];
+        const foundIndex = currentGallery.findIndex(item => imageSrc && (imageSrc.includes(item.src) || item.src.includes(imageSrc)));
+        currentIndex = foundIndex !== -1 ? foundIndex : 0;
+        lightboxReturnFocus = document.activeElement;
+
+        syncLightboxContent();
+
+        lightbox.classList.remove('hide');
+        lightbox.setAttribute('aria-hidden', 'false');
+        
+        requestAnimationFrame(() => {
+            lightbox.classList.add('active');
+            btnClose?.focus({ preventScroll: true });
+        });
+    };
+
     const nextImage = () => {
         if (currentGallery.length === 0) return;
         currentIndex = (currentIndex + 1) % currentGallery.length;
-        updateLightboxContent();
+        syncLightboxContent();
     };
 
     const prevImage = () => {
         if (currentGallery.length === 0) return;
         currentIndex = (currentIndex - 1 + currentGallery.length) % currentGallery.length;
-        updateLightboxContent();
+        syncLightboxContent();
     };
 
     const closeLightbox = () => {
         lightbox.classList.remove('active');
         lightbox.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
         setTimeout(() => {
             lightbox.classList.add('hide');
-            if (lightboxReturnFocus instanceof HTMLElement) lightboxReturnFocus.focus();
+            if (lightboxReturnFocus instanceof HTMLElement) {
+                lightboxReturnFocus.focus({ preventScroll: true });
+            }
             lightboxReturnFocus = null;
-        }, 300);
+        }, 200);
     };
 
     const projectCardElements = document.querySelectorAll('.project-card, .memory-card');
@@ -1939,10 +1924,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (lightbox) {
         lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox || e.target.classList.contains('lightbox-overlay')) {
+            if (e.target === lightbox || e.target.classList.contains('lightbox-overlay') || e.target.classList.contains('lightbox-content')) {
                 closeLightbox();
             }
         });
+
+        // Lock background scroll without shifting layout or removing scrollbar
+        lightbox.addEventListener('wheel', (e) => {
+            e.preventDefault();
+        }, { passive: false });
+        lightbox.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
     }
 
     document.addEventListener('keydown', (e) => {
@@ -1968,34 +1961,54 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 11. Scroll Reveal Animations
+    // 11. Scroll Reveal Animations (Resilient with instant viewport sweep & fallback)
     const initScrollReveal = () => {
         const revealElements = document.querySelectorAll('.reveal, .reveal-on-scroll');
         if (revealElements.length === 0) return;
 
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px 0px -20px 0px',
-            threshold: 0.05
-        };
-
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
+        // Immediate sweep: reveal any element in or near the viewport instantly
+        const revealInView = () => {
+            const vh = window.innerHeight || 800;
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < vh + 150 && rect.bottom > -150) {
+                    el.classList.add('visible');
                 }
             });
-        }, observerOptions);
+        };
 
-        revealElements.forEach(el => {
-            revealObserver.observe(el);
-            // Immediate fallback for elements already in or near the viewport
-            const rect = el.getBoundingClientRect();
-            if (rect.top < window.innerHeight + 100 && rect.bottom > -100) {
-                el.classList.add('visible');
-            }
-        });
+        revealInView();
+
+        if ('IntersectionObserver' in window) {
+            const observerOptions = {
+                root: null,
+                rootMargin: '120px 0px 120px 0px',
+                threshold: 0
+            };
+
+            const revealObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            revealElements.forEach(el => {
+                if (!el.classList.contains('visible')) {
+                    revealObserver.observe(el);
+                }
+            });
+        } else {
+            // Fallback for browsers without IntersectionObserver
+            revealElements.forEach(el => el.classList.add('visible'));
+        }
+
+        // Hard failsafe: guarantee all content is fully visible within 1.2s regardless of scroll state
+        setTimeout(() => {
+            revealElements.forEach(el => el.classList.add('visible'));
+        }, 1200);
     };
 
     initScrollReveal();
@@ -2008,7 +2021,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const ctx = canvas.getContext('2d');
         let animationFrameId = null;
         let particles = [];
-        let mouse = { x: -1000, y: -1000, active: false, isDown: false };
+        let mouse = { x: -1000, y: -1000, active: false };
         
         let colors = getThemeColors();
         
@@ -2082,46 +2095,27 @@ document.addEventListener('DOMContentLoaded', () => {
                 const targetVx = Math.cos(this.angle) * this.baseSpeed;
                 const targetVy = Math.sin(this.angle) * this.baseSpeed;
 
-                // Mouse Left Click Hold: Gravitational singularity gather pull
-                if (mouse.isDown && mouse.active && mouse.x > 0 && mouse.y > 0) {
-                    const dx = mouse.x - this.x;
-                    const dy = mouse.y - this.y;
-                    const distSq = dx * dx + dy * dy;
-                    const pullRadius = 600;
-                    
-                    if (distSq < pullRadius * pullRadius) {
-                        const dist = Math.sqrt(distSq) || 1;
-                        const force = (pullRadius - dist) / pullRadius;
-                        // Gravitational pull towards cursor
-                        this.vx += (dx / dist) * force * 0.45;
-                        this.vy += (dy / dist) * force * 0.45;
-                    }
-                    // Apply light damping while gathering
-                    this.vx *= 0.95;
-                    this.vy *= 0.95;
-                } else {
-                    // Normal state: blend to base velocity + subtle repulsion on hover
-                    this.vx = this.vx * 0.98 + targetVx * 0.02;
-                    this.vy = this.vy * 0.98 + targetVy * 0.02;
+                // Normal state: blend to base velocity + gentle repulsion on hover
+                this.vx = this.vx * 0.98 + targetVx * 0.02;
+                this.vy = this.vy * 0.98 + targetVy * 0.02;
 
-                    if (mouse.active && mouse.x > 0 && mouse.y > 0) {
-                        const dx = this.x - mouse.x;
-                        const dy = this.y - mouse.y;
-                        const distSq = dx * dx + dy * dy;
-                        const maxMouseDist = 130;
-                        
-                        if (distSq < maxMouseDist * maxMouseDist) {
-                            const dist = Math.sqrt(distSq) || 1;
-                            const force = (maxMouseDist - dist) / maxMouseDist;
-                            this.vx += (dx / dist) * force * 0.12;
-                            this.vy += (dy / dist) * force * 0.12;
-                        }
+                if (mouse.active && mouse.x > 0 && mouse.y > 0) {
+                    const dx = this.x - mouse.x;
+                    const dy = this.y - mouse.y;
+                    const distSq = dx * dx + dy * dy;
+                    const maxMouseDist = 130;
+                    
+                    if (distSq < maxMouseDist * maxMouseDist) {
+                        const dist = Math.sqrt(distSq) || 1;
+                        const force = (maxMouseDist - dist) / maxMouseDist;
+                        this.vx += (dx / dist) * force * 0.12;
+                        this.vy += (dy / dist) * force * 0.12;
                     }
                 }
 
-                // Speed limit depends on left-click hold state
+                // Constant smooth speed limit
                 const speed = Math.hypot(this.vx, this.vy);
-                const maxSpeed = mouse.isDown ? 4.5 : 1.0;
+                const maxSpeed = 1.0;
                 if (speed > maxSpeed) {
                     this.vx = (this.vx / speed) * maxSpeed;
                     this.vy = (this.vy / speed) * maxSpeed;
@@ -2146,15 +2140,15 @@ document.addEventListener('DOMContentLoaded', () => {
                     const dx = mouse.x - this.x;
                     const dy = mouse.y - this.y;
                     const distSq = dx * dx + dy * dy;
-                    const effectDist = mouse.isDown ? 400 : 126;
+                    const effectDist = 126;
                     if (distSq < effectDist * effectDist) {
                         const dist = Math.sqrt(distSq);
-                        currentAlpha = Math.min(0.98, currentAlpha + (1 - dist / effectDist) * (mouse.isDown ? 0.6 : 0.4));
+                        currentAlpha = Math.min(0.98, currentAlpha + (1 - dist / effectDist) * 0.4);
                     }
                 }
 
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius * (mouse.isDown ? 1.3 : 1.0), 0, Math.PI * 2);
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
                 ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${currentAlpha})`;
                 ctx.fill();
             }
@@ -2205,7 +2199,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 2. Interactive glowing cursor connection lines (stronger rays during click hold)
             if (mouse.active && mouse.x !== null && mouse.y !== null && mouse.x > 0) {
-                const mouseDist = mouse.isDown ? 300 : 125;
+                const mouseDist = 125;
                 const mouseDistSq = mouseDist * mouseDist;
                 for (let i = 0; i < len; i++) {
                     const p1 = particles[i];
@@ -2215,13 +2209,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         const distSq = dx * dx + dy * dy;
                         if (distSq < mouseDistSq) {
                             const dist = Math.sqrt(distSq);
-                            const alpha = (1 - dist / mouseDist) * (mouse.isDown ? 0.75 : 0.35);
+                            const alpha = (1 - dist / mouseDist) * 0.35;
                             const col = p1.colorType === 'cyan' ? colCyan : colPurple;
                             ctx.beginPath();
                             ctx.moveTo(p1.x, p1.y);
                             ctx.lineTo(mouse.x, mouse.y);
                             ctx.strokeStyle = `rgba(${col.r}, ${col.g}, ${col.b}, ${alpha})`;
-                            ctx.lineWidth = mouse.isDown ? 1.2 : 0.8;
+                            ctx.lineWidth = 0.8;
                             ctx.stroke();
                         }
                     }
@@ -2230,11 +2224,6 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         const animate = () => {
-            if (document.body.classList.contains('eco-mode')) {
-                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-                animationFrameId = null;
-                return;
-            }
 
             const w = window.innerWidth;
             const h = window.innerHeight;
@@ -2244,18 +2233,18 @@ document.addEventListener('DOMContentLoaded', () => {
             // Ambient mouse spotlight (expands into glowing gravity core on click hold)
             if (mouse.active && mouse.x > 0 && mouse.y > 0 && window.innerWidth >= 768) {
                 const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-                const glowRadius = mouse.isDown ? 320 : 220;
+                const glowRadius = 220;
                 const radialGlow = ctx.createRadialGradient(
                     mouse.x, mouse.y, 0,
                     mouse.x, mouse.y, glowRadius
                 );
                 
                 if (isLight) {
-                    const coreAlpha = mouse.isDown ? 0.15 : 0.04;
+                    const coreAlpha = 0.04;
                     radialGlow.addColorStop(0, `rgba(${colors.cyan.r}, ${colors.cyan.g}, ${colors.cyan.b}, ${coreAlpha})`);
                     radialGlow.addColorStop(1, 'rgba(255, 255, 255, 0)');
                 } else {
-                    const coreAlpha = mouse.isDown ? 0.22 : 0.06;
+                    const coreAlpha = 0.06;
                     radialGlow.addColorStop(0, `rgba(${colors.cyan.r}, ${colors.cyan.g}, ${colors.cyan.b}, ${coreAlpha})`);
                     radialGlow.addColorStop(1, 'rgba(8, 12, 20, 0)');
                 }
@@ -2285,22 +2274,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     animationFrameId = null;
                 }
             } else {
-                if (!animationFrameId && !document.body.classList.contains('eco-mode')) {
+                if (!animationFrameId ) {
                     animate();
                 }
             }
         });
 
         window.addEventListener('resize', resizeCanvas, { passive: true });
-        
-        window.addEventListener('perfModeChanged', () => {
-            if (!prefersReducedMotion && !document.body.classList.contains('eco-mode')) {
-                if (!animationFrameId) {
-                    animate();
-                }
-            }
-        });
-        
         const updateMousePosition = (e) => {
             mouse.x = e.clientX;
             mouse.y = e.clientY;
@@ -2310,33 +2290,18 @@ document.addEventListener('DOMContentLoaded', () => {
         window.addEventListener('mousemove', updateMousePosition, { passive: true });
         document.addEventListener('mousemove', updateMousePosition, { passive: true });
         
-        window.addEventListener('mousedown', (e) => {
-            if (e.button === 0) { // Left click
-                mouse.isDown = true;
-                mouse.active = true;
-                mouse.x = e.clientX;
-                mouse.y = e.clientY;
-            }
-        }, { passive: true });
-
-        window.addEventListener('mouseup', () => {
-            mouse.isDown = false;
-        }, { passive: true });
-
         window.addEventListener('mouseenter', () => {
             mouse.active = true;
         });
 
         window.addEventListener('mouseleave', () => {
             mouse.active = false;
-            mouse.isDown = false;
             mouse.x = -1000;
             mouse.y = -1000;
         });
 
         window.addEventListener('touchstart', (e) => {
             if (e.touches.length > 0) {
-                mouse.isDown = true;
                 mouse.active = true;
                 mouse.x = e.touches[0].clientX;
                 mouse.y = e.touches[0].clientY;
@@ -2353,7 +2318,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.addEventListener('touchend', () => {
             mouse.active = false;
-            mouse.isDown = false;
             mouse.x = -1000;
             mouse.y = -1000;
         });
@@ -2374,7 +2338,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(document.documentElement, { attributes: true });
 
         resizeCanvas();
-        if (!prefersReducedMotion && !document.body.classList.contains('eco-mode')) {
+        if (!prefersReducedMotion ) {
             animate();
         }
     };

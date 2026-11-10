@@ -2,7 +2,18 @@
 <html lang="zh-TW" data-theme="dark" class="no-js">
 
 <head>
-    <script>document.documentElement.classList.replace('no-js', 'js');</script>
+    <script>
+        document.documentElement.classList.replace('no-js', 'js');
+        // Fail-safe: ensure content visibility even if script initialization encounters unexpected delays
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                var pendingReveals = document.querySelectorAll('.reveal:not(.visible)');
+                if (pendingReveals.length > 0) {
+                    pendingReveals.forEach(function(el) { el.classList.add('visible'); });
+                }
+            }, 1200);
+        });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0b0f19" id="theme-color-meta">
@@ -29,7 +40,7 @@
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
 
     <!-- Main CSS -->
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="index.css?v=20261110_11">
     <!-- PWA & Mobile Web App -->
     <link rel="manifest" href="manifest.json">
     <meta name="mobile-web-app-capable" content="yes">
@@ -117,11 +128,6 @@
                             </li>
                         </ul>
                     </div>
-
-                    <button class="btn-perf-toggle" data-i18n-aria-label="perf_toggle_aria"
-                        data-i18n-title="perf_toggle_title" aria-label="切換省電模式" title="切換省電模式">
-                        <i data-lucide="zap"></i>
-                    </button>
                     <button class="btn-theme-toggle" data-i18n-aria-label="theme_toggle_aria" aria-label="切換深淺色模式">
                         <i data-lucide="sun" class="sun-icon"></i>
                         <i data-lucide="moon" class="moon-icon"></i>
@@ -156,11 +162,6 @@
                         </li>
                     </ul>
                 </div>
-
-                <button class="btn-perf-toggle" id="perf-toggle" data-i18n-aria-label="perf_toggle_aria"
-                    data-i18n-title="perf_toggle_title" aria-label="切換省電模式" title="切換省電模式">
-                    <i data-lucide="zap"></i>
-                </button>
                 <button class="btn-theme-toggle" id="theme-toggle" data-i18n-aria-label="theme_toggle_aria"
                     aria-label="切換深淺色模式">
                     <i data-lucide="sun" class="sun-icon"></i>
@@ -408,7 +409,6 @@
                                         <div class="skill-progress-bar" data-progress="90%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_pve_desc">部署多節點虛擬集群，實現 LXC 容器與 VM 的高可用性架構。</p>
-                                    <a href="#proj-infra" class="skill-evidence" data-i18n="skill_ev_pve"><i data-lucide="arrow-up-right"></i> 佐證專案：Homelab 機櫃虛擬化叢集 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -420,7 +420,6 @@
                                         <div class="skill-progress-bar" data-progress="85%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_docker_desc">設計 Docker 檔案與 Compose 配置，構建輕量、易遷移的微服務環境。</p>
-                                    <a href="#proj-infra" class="skill-evidence" data-i18n="skill_ev_docker"><i data-lucide="arrow-up-right"></i> 佐證專案：微服務容器化與自動化部署 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -432,7 +431,6 @@
                                         <div class="skill-progress-bar" data-progress="90%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_openwrt_desc">編譯客製化韌體，規劃防火牆、VLAN、VPN 通道與智慧分流系統。</p>
-                                    <a href="#proj-infra" class="skill-evidence" data-i18n="skill_ev_openwrt"><i data-lucide="arrow-up-right"></i> 佐證專案：軟路由 VLAN 隔離與加密通道 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -444,7 +442,6 @@
                                         <div class="skill-progress-bar" data-progress="80%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_net_desc">管理網路交換機與路由器，設置多子網隔離、動態路由及防禦策略。</p>
-                                    <a href="#proj-infra" class="skill-evidence" data-i18n="skill_ev_net"><i data-lucide="arrow-up-right"></i> 佐證專案：多子網規劃與防火牆策略 ↗</a>
                                 </div>
                             </div>
                         </div>
@@ -462,7 +459,6 @@
                                         <div class="skill-progress-bar" data-progress="65%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_ros_desc">利用 ROS 2 框架開發無人機導航、感測器數據分析與自主避障邏輯。</p>
-                                    <a href="#proj-academic" class="skill-evidence" data-i18n="skill_ev_ros"><i data-lucide="arrow-up-right"></i> 佐證專案：無人機邊緣運算與自主導航 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -474,7 +470,6 @@
                                         <div class="skill-progress-bar" data-progress="80%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_embed_desc">編寫微控制器 (ESP32, STM32) 與單板電腦 (樹莓派, Jetson Nano) 控制程式。</p>
-                                    <a href="#proj-ta" class="skill-evidence" data-i18n="skill_ev_embed"><i data-lucide="arrow-up-right"></i> 佐證專案：微處理器實作與助教實驗指導 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -486,7 +481,6 @@
                                         <div class="skill-progress-bar" data-progress="65%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_ai_desc">在邊緣運算裝置上部署量化輕量模型 (YOLOv8) 進行即時物件偵測與追蹤。</p>
-                                    <a href="#proj-academic" class="skill-evidence" data-i18n="skill_ev_ai"><i data-lucide="arrow-up-right"></i> 佐證專案：輕量化模型量化與即時辨識 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -498,7 +492,6 @@
                                         <div class="skill-progress-bar" data-progress="80%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_linux_desc">使用版本控制與自動化腳本 (Bash, Ansible) 管理大規模主機運作。</p>
-                                    <a href="#proj-infra" class="skill-evidence" data-i18n="skill_ev_linux"><i data-lucide="arrow-up-right"></i> 佐證專案：Homelab 運維與自動化腳本管理 ↗</a>
                                 </div>
                             </div>
                         </div>
@@ -516,7 +509,6 @@
                                         <div class="skill-progress-bar" data-progress="95%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_3d_desc">熟練改裝 Creality 等機型，自組 Klipper 韌體核心，優化列印品質。</p>
-                                    <a href="#proj-mfg" class="skill-evidence" data-i18n="skill_ev_3d"><i data-lucide="arrow-up-right"></i> 佐證專案：Creality MGN 雙線軌與韌體調校 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -528,7 +520,6 @@
                                         <div class="skill-progress-bar" data-progress="70%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_cad_desc">使用 Fusion 360 進行機構設計，產出符合公差標準的工業級功能性零件。</p>
-                                    <a href="#proj-mfg" class="skill-evidence" data-i18n="skill_ev_cad"><i data-lucide="arrow-up-right"></i> 佐證專案：機構設計與耐公差功能件研發 ↗</a>
                                 </div>
                                 <div class="skill-item glassmorphism">
                                     <div class="skill-info">
@@ -540,7 +531,6 @@
                                         <div class="skill-progress-bar" data-progress="80%"></div>
                                     </div>
                                     <p class="skill-desc" data-i18n="skill_hw_desc">使用示波器與萬用表進行電路分析，能動手進行貼片元件銲接與維修。</p>
-                                    <a href="#proj-mfg" class="skill-evidence" data-i18n="skill_ev_hw"><i data-lucide="arrow-up-right"></i> 佐證專案：熱端散熱電路與貼片元件維修 ↗</a>
                                 </div>
                             </div>
                         </div>
@@ -924,7 +914,7 @@
     </button>
 
     <!-- Main JavaScript -->
-    <script src="script.js" defer></script>
+    <script src="script.js?v=20261110_11" defer></script>
 </body>
 
 </html>
