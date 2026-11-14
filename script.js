@@ -124,6 +124,10 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const initialTheme = savedTheme || (systemPrefersDark ? 'dark' : 'light');
     htmlElement.setAttribute('data-theme', initialTheme);
+    const metaColorScheme = document.getElementById('color-scheme-meta') || document.querySelector('meta[name="color-scheme"]');
+    if (metaColorScheme) {
+        metaColorScheme.setAttribute('content', initialTheme);
+    }
     
     themeToggleBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -132,6 +136,10 @@ document.addEventListener('DOMContentLoaded', () => {
             
             htmlElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
+            const metaColorScheme = document.getElementById('color-scheme-meta') || document.querySelector('meta[name="color-scheme"]');
+            if (metaColorScheme) {
+                metaColorScheme.setAttribute('content', newTheme);
+            }
         });
     });
 
@@ -2331,6 +2339,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (metaThemeColor) {
                         metaThemeColor.setAttribute('content', currentTheme === 'light' ? '#f8fafc' : '#0b0f19');
                     }
+                    const metaColorScheme = document.getElementById('color-scheme-meta') || document.querySelector('meta[name="color-scheme"]');
+                    if (metaColorScheme) {
+                        metaColorScheme.setAttribute('content', currentTheme === 'light' ? 'light' : 'dark');
+                    }
                 }
             });
         });
@@ -2512,6 +2524,10 @@ document.addEventListener('DOMContentLoaded', () => {
                         const metaThemeColor = document.getElementById('theme-color-meta');
                         if (metaThemeColor) {
                             metaThemeColor.setAttribute('content', target === 'light' ? '#f8fafc' : '#0b0f19');
+                        }
+                        const metaColorScheme = document.getElementById('color-scheme-meta') || document.querySelector('meta[name="color-scheme"]');
+                        if (metaColorScheme) {
+                            metaColorScheme.setAttribute('content', target);
                         }
                         appendHistoryLine(cmd, `[System] 已成功將網站色彩切換為 <strong>${target.toUpperCase()}</strong> 主題！`);
                     } else {

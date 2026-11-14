@@ -1,6 +1,8 @@
 /* CSS Design System for Jun Wei Liu's Geek Portfolio */
 
 :root {
+    color-scheme: light dark;
+
     /* Fonts */
     --font-sans: 'Outfit', 'Noto Sans TC', sans-serif;
     --font-mono: 'Fira Code', monospace;
@@ -37,6 +39,17 @@
     --radius-md: 12px;
     --radius-lg: 20px;
     --radius-full: 9999px;
+}
+
+
+:root:has(> head > meta[name="color-scheme"][content="dark"]),
+:root[data-theme="dark"] {
+    color-scheme: dark;
+}
+
+:root:has(> head > meta[name="color-scheme"][content="light"]),
+:root[data-theme="light"] {
+    color-scheme: light;
 }
 
 /* Light Mode Override */

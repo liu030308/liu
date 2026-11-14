@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'junwei-portfolio-';
-const CACHE_NAME = `${CACHE_PREFIX}v26`;
+const CACHE_NAME = `${CACHE_PREFIX}v27`;
 
 // Core critical assets for Jun Wei Liu's portfolio shell (excludes heavy standalone tool libraries)
 const CORE_ASSETS = [
