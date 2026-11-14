@@ -1,12 +1,13 @@
 const CACHE_PREFIX = 'junwei-portfolio-';
-const CACHE_NAME = `${CACHE_PREFIX}v27`;
+const CACHE_NAME = `${CACHE_PREFIX}v28`;
 
 // Core critical assets for Jun Wei Liu's portfolio shell (excludes heavy standalone tool libraries)
+// Keep ?v= query strings in sync with index.html so offline pre-cache matches exact versioned requests
 const CORE_ASSETS = [
     './',
     './index.html',
-    './index.css',
-    './script.js',
+    './index.css?v=20261114_01',
+    './script.js?v=20261114_01',
     './manifest.json',
     './assets/icon/logo-white-nav.webp',
     './assets/icon/logo-nav.webp',
